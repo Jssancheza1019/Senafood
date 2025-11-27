@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SenaFOOD - Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard_styles.css"> 
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-left">
+            <img src="/img/sena_food_logo.png" alt="SenaFOOD Logo" class="header-logo">
+            <span class="app-title">Dashboard</span>
+        </div>
+
+        <div class="header-right">
+            <div sec:authorize="isAuthenticated()" class="user-profile-menu">
+                
+                <span class="user-name" th:text="${#authentication.name}">Daniela Calderon</span> 
+                
+                <div class="dropdown-icon">▼</div> 
+
+                <div class="dropdown-content">
+                    <a href="/perfil/editar" class="dropdown-item">Modificar Datos</a>
+                    
+                    <form th:action="@{/logout}" method="post" class="logout-form">
+                        <button type="submit" class="dropdown-item logout-btn">Cerrar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-content">
+        <div class="welcome-card">
+            
+            <img src="/img/sena_food_logo.png" alt="SenaFOOD Logo" class="welcome-logo">
+            
+            <h2 class="welcome-title">¡Bienvenido a SenaFOOD!</h2>
+            <p class="welcome-tagline">
+                Explora la variedad y el sabor optimizando tu tiempo. Estamos aquí para ofrecerte una experiencia gastronómica eficiente y deliciosa.
+            </p>
+
+            <div class="info-grid">
+                
+                <div class="info-box">
+                    <h3 class="box-title">Catálogo</h3>
+                    <p class="box-placeholder">Aquí va la información del catálogo de productos.</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3 class="box-title">Gestión de usuario</h3>
+                    <p class="box-placeholder">Aquí va el href de gestión de usuarios.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3 class="box-title">Gestión de pedidos y novedades</h3>
+                    <p class="box-placeholder">Aquí va la información sobre pedidos y notificaciones.</p>
+                </div>
+                
+                <div class="info-box">
+                    <h3 class="box-title">Ayuda y Soporte</h3>
+                    <p class="box-placeholder">Información sobre tu cuenta y soporte.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

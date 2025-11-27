@@ -1,0 +1,134 @@
+/* ======================================= */
+/* 1. CONFIGURACIÓN GLOBAL Y DE TIPOGRAFÍA */
+/* ======================================= */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f8f8f8; /* Fondo sutil para el cuerpo */
+}
+
+/* ------------------------------------------------ */
+
+/* ======================================= */
+/* 2. SLIDER Y LOGO (Recuadro Superior) */
+/* ======================================= */
+.hero-slider-container {
+    /* Define el área visible del slider */
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    position: relative; /* Clave para posicionar el logo */
+}
+
+/* Contenedor del logo superpuesto */
+.main-header-public {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10; /* Asegura que esté por encima de las imágenes */
+    background-color: #558B2F; 
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-logo-public {
+    height: 50px; 
+    width: auto;
+    display: block;
+}
+
+/* Contenedor de las imágenes (Slider) */
+.slider-wrapper {
+    width: 100%; 
+    height: 100%;
+    /* ************ MODIFICACIÓN CLAVE: POSITION ************ */
+    position: relative; /* Hace que las imágenes absolutas se posicionen respecto a este contenedor */
+}
+
+/* Estilos de las imágenes del slider */
+/* Estilos de las imágenes del slider */
+.slider-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute; /* Ocupa todo el espacio de su padre relativo */
+    top: 0;
+    left: 0;
+    
+    opacity: 0; 
+    transition: opacity 1s ease-in-out;
+    
+    /* Reglas cruciales */
+    display: block; /* Asegura que la imagen sea tratada como un bloque que ocupa espacio */
+    z-index: 0;     /* Buena práctica para asegurar el orden de las capas */
+}
+.slider-image.active {
+    opacity: 1;
+    z-index: 1; /* Asegura que la imagen activa esté por encima */
+}
+
+/* ------------------------------------------------ */
+
+/* ======================================= */
+/* 3. SECCIÓN DE BIENVENIDA Y BOTONES */
+/* ======================================= */
+.welcome-section-content {
+    background-color: white; /* Fondo blanco como en la imagen */
+    padding: 50px 20px;
+    text-align: center;
+    border-top: 1px solid #eee; /* Línea divisoria sutil */
+    margin-top: 0; 
+}
+
+/* Estilo del Título Principal */
+.main-title {
+    color: #558B2F; 
+    font-size: 2.5em; 
+    margin-bottom: 0.2em;
+    font-weight: bold;
+    text-transform: none; 
+}
+
+/* Estilo del subtítulo/Tagline */
+.tagline {
+    font-size: 1.1em;
+    color: #434343; 
+    margin-bottom: 40px; 
+    font-weight: normal;
+}
+
+/* ------------------------------------------------ */
+
+/* ======================================= */
+/* 4. ESTILO DE BOTONES PÚBLICOS */
+/* ======================================= */
+.button-group-public {
+    margin-top: 30px;
+}
+
+.btn-public {
+    display: inline-block;
+    padding: 12px 30px; 
+    margin: 0 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    border: none;
+    box-shadow: none;
+}
+
+/* Botones con el mismo estilo verde */
+.btn-primary-public, .btn-secondary-public { 
+    background-color: #558B2F; /* Verde principal */
+    color: white;
+}
+
+.btn-public:hover {
+    background-color: #689F38; /* Tono de verde más claro al pasar el ratón */
+    transform: none; 
+}

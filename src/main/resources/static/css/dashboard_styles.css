@@ -1,0 +1,176 @@
+/* ======================================= */
+/* 1. CONFIGURACIÓN BÁSICA */
+/* ======================================= */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5; /* Fondo gris claro */
+}
+
+/* ======================================= */
+/* 2. HEADER Y NAVEGACIÓN SUPERIOR */
+/* ======================================= */
+.main-header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo {
+    height: 40px; /* Tamaño más pequeño para la barra superior */
+    margin-right: 10px;
+}
+
+.app-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #38761d; /* Color verde de la marca */
+}
+
+/* --- Menú de Perfil y Desplegable --- */
+.header-right {
+    position: relative; /* Contenedor para posicionar el menú desplegable */
+}
+
+.user-profile-menu {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.user-profile-menu:hover {
+    background-color: #e0e0e0;
+}
+
+.user-name {
+    margin-right: 10px;
+    font-weight: 600;
+    color: #555;
+}
+
+.dropdown-icon {
+    font-size: 0.8em;
+}
+
+.dropdown-content {
+    /* Inicialmente oculto */
+    display: none; 
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 100;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+/* Estilo para mostrar el menú al pasar el ratón (Requiere JS para una mejor UX, pero esto funciona con CSS) */
+.user-profile-menu:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-item {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+.logout-btn {
+    color: darkred; /* Para destacar la acción de cerrar sesión */
+}
+
+/* ======================================= */
+/* 3. CONTENIDO CENTRAL DE BIENVENIDA */
+/* ======================================= */
+.dashboard-content {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.welcome-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+}
+
+.welcome-logo {
+    height: 100px; /* Tamaño del logo central */
+    margin-bottom: 20px;
+}
+
+.welcome-title {
+    color: #4CAF50; /* Verde brillante */
+    margin-bottom: 10px;
+}
+
+.welcome-tagline {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+
+/* ======================================= */
+/* 4. GRID DE CAJAS INFERIORES */
+/* ======================================= */
+.info-grid {
+    display: grid;
+    /* 2 columnas por fila para pantallas grandes */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.info-box {
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: left;
+    transition: box-shadow 0.3s;
+}
+
+.info-box:hover {
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3); /* Sombra verde sutil al pasar el ratón */
+}
+
+.box-title {
+    color: #38761d;
+    margin-top: 0;
+    font-size: 1.2em;
+}
+
+.box-placeholder {
+    color: #aaa;
+    font-style: italic;
+    font-size: 0.9em;
+}

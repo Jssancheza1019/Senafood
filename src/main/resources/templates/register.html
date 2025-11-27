@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SenaFOOD - Registro</title>
+
+    <!-- Hoja de estilos (verificada: form_styles.css) -->
+    <link rel="stylesheet" th:href="@{/css/form_styles.css}">
+</head>
+<!-- Usamos la clase .login-body para el fondo/centrado que definiste en tu CSS -->
+<body class="login-body">
+
+    <!-- Usamos la clase .form-card para el contenedor principal con sombra y fondo blanco -->
+    <div class="form-card" style="max-width: 500px;"> 
+
+        <h2 class="form-title">Registro de Nuevo Usuario</h2>
+        
+        <!-- Bloque para mostrar errores de registro (por ejemplo, si el email ya existe) -->
+        <div th:if="${registrationError}" 
+             class="alert alert-danger" 
+             style="color: white; background-color: #dc3545; padding: 10px; border-radius: 8px; margin-bottom: 20px;">
+            <p th:text="${registrationError}"></p>
+        </div>
+
+        <form th:action="@{/register}" method="POST" th:object="${user}" autocomplete="off">
+
+            <!-- Campo: Nombre -->
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" th:field="*{nombre}" class="form-control"
+                    required placeholder="Ingrese su nombre" autocomplete="off">
+            </div>
+
+            <!-- Campo: Apellido -->
+            <div class="form-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" th:field="*{apellido}" class="form-control"
+                    required placeholder="Ingrese su apellido" autocomplete="off">
+            </div>
+
+            <!-- Campo: Email -->
+            <div class="form-group">
+                <label for="email">Email (Login):</label>
+                <input type="email" id="email" th:field="*{email}" class="form-control"
+                    required placeholder="ejemplo@senafood.com" autocomplete="off">
+            </div>
+
+            <!-- Campo: Contraseña -->
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" th:field="*{password}" class="form-control"
+                    required placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+            </div>
+
+            <!-- Campo: Teléfono -->
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" th:field="*{telefono}" class="form-control"
+                    required placeholder="Ej: 3001234567" autocomplete="off">
+            </div>
+
+            <!-- Campo: Tipo de Identificación -->
+            <div class="form-group">
+                <label for="tipoIdentificacion">Tipo de Identificación:</label>
+                <select id="tipoIdentificacion" th:field="*{tipoIdentificacion}" class="form-control"
+                        required autocomplete="off">
+                    <option value="">Seleccione...</option>
+                    <option value="CC">Cédula de Ciudadanía</option>
+                    <option value="CE">Cédula de Extranjería</option>
+                    <option value="TI">Tarjeta de Identidad</option>
+                </select>
+            </div>
+
+            <!-- Campo: Número de Identificación -->
+            <div class="form-group">
+                <label for="numeroIdentificacion">Número de Identificación:</label>
+                <input type="text" id="numeroIdentificacion" th:field="*{numeroIdentificacion}"
+                    class="form-control" required placeholder="Número de documento" autocomplete="off">
+            </div>
+
+            <!-- Botón de registro: Usamos la clase .btn-register -->
+            <button type="submit" class="btn-register">Crear Cuenta</button>
+        </form>
+
+        <!-- Link hacia login -->
+        <p class="register-link-text">
+            ¿Ya tienes cuenta? <a th:href="@{/login}">Ingresa aquí</a>
+        </p>
+
+    </div>
+
+</body>
+</html>
