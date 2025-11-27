@@ -13,34 +13,37 @@ import java.util.Collection;
 
 /**
  * Clase encargada de redirigir al usuario después de un login exitoso
- * basado en el rol que tiene asignado.
+ * según el rol que tenga asignado dentro del sistema.
  */
-@Component
+@Component // Permite que Spring detecte esta clase como componente y pueda inyectarla donde se necesite
 public class CustomRole implements AuthenticationSuccessHandler {
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, 
-                                        HttpServletResponse response, 
-                                        Authentication authentication) 
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication authentication)
                                         throws IOException, ServletException {
 
-        // Obtiene la colección de roles (Authorities) del usuario autenticado
+        // Obtiene la lista de roles/autoridades que tiene el usuario autenticado
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        String redirectUrl = "/dashboard"; // URL de seguridad por defecto para el cliente
 
-        // Iteramos sobre los roles. Spring Security añade automáticamente el prefijo "ROLE_"
+        // URL a la que será redirigido un usuario sin rol especial (por ejemplo, un cliente)
+        String redirectUrl = "/dashboard";
+
+        // Recorre los roles para verificar si el usuario tiene el rol de administrador
+        // Spring Security agrega automáticamente el prefijo "ROLE_" a los roles declarados
         for (GrantedAuthority authority : authorities) {
             String roleName = authority.getAuthority();
 
             if (roleName.equals("ROLE_ADMINISTRADOR")) {
-                // Si tiene rol de administrador, redirigir al panel de control de administración
-                redirectUrl = "/admin/panel"; 
-                break; 
-            } 
-            // Otros roles como ROLE_CLIENTE o ROLE_MESERO caerán en la URL por defecto (/dashboard)
+                // Si el rol encontrado es administrador, cambia la URL de redirección
+                redirectUrl = "/admin/panel";
+                break; // Sale del ciclo porque ya encontró el rol
+            }
+            // Si el rol es ROLE_CLIENTE, ROLE_MESERO u otro, se mantiene la URL por defecto
         }
 
-        // Ejecutar la redirección
+        // Realiza la redirección final dependiendo del rol encontrado
         response.sendRedirect(redirectUrl);
     }
 }

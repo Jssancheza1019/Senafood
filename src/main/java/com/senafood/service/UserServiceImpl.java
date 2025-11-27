@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional; // <--- 1. CORRECCIÓN: Se agrega la importación para Optional
+import java.util.Optional; //  Se agrega la importación para Optional
 
 @Service
 public class UserServiceImpl implements UserDetailsService {
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
     /**
-     * 2. CORRECCIÓN: Método para verificar si el email ya existe (Usado por AuthController)
+     * Método para verificar si el email ya existe (Usado por AuthController)
      */
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email); 
@@ -47,17 +47,17 @@ public class UserServiceImpl implements UserDetailsService {
      */
     public User save(User registrationUser) {
         
-        // 3. CORRECCIÓN: Se usa getPassword() y setPassword() para ser consistentes con User.java
+        // Se usa getPassword() y setPassword() para ser consistentes con User.java
         String encodedPassword = passwordEncoder.encode(registrationUser.getPassword()); 
         registrationUser.setPassword(encodedPassword); 
 
-        // 2. Asignar el Rol por defecto (Cliente)
+        //  Asignar el Rol por defecto (Cliente)
         Role defaultRole = roleRepository.findByNombreRol("Cliente")
                 .orElseThrow(() -> new RuntimeException("Error: Rol 'Cliente' no encontrado en la DB."));
         
         registrationUser.setRol(defaultRole);
 
-        // 3. Guardar el objeto User encriptado en la DB
+        //  Guardar el objeto User encriptado en la DB
         return userRepository.save(registrationUser);
     }
 }
