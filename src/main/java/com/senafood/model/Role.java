@@ -11,10 +11,10 @@ public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // 🧹 LIMPIO: Eliminar @Column(name = "idRol"). Hibernate mapea idRol -> id_rol automáticamente.
+    //Eliminar @Column(name = "idRol"). Hibernate mapea idRol -> id_rol automáticamente.
     private Long idRol;
 
-    // 🧹 LIMPIO: Eliminar @Column(name = "nombreRol"). Hibernate mapea nombreRol -> nombre_rol automáticamente.
+    //Eliminar @Column(name = "nombreRol"). Hibernate mapea nombreRol -> nombre_rol automáticamente.
     private String nombreRol; 
 
     // Constructor vacío requerido por JPA

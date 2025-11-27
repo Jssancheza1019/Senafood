@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 /**
  * Entidad de Peticiones, Quejas, Reclamos, Sugerencias y Felicitaciones (PQRSF).
  * Mapea directamente a la tabla PQRSF.
- * NOTA: Esta clase asume que Spring Data JPA se encargará de la persistencia 
- * en una aplicación real (usando Long para los IDs INT(11) de la base de datos).
+ *  Esta clase asume que Spring Data JPA se encargará de la persistencia 
  */
 public class PQRSF {
     

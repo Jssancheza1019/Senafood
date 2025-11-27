@@ -17,7 +17,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // 🧹 LIMPIO: Hibernate mapea idUsuario -> id_usuario automáticamente.
+    //Hibernate mapea idUsuario -> id_usuario automáticamente.
     private Long idUsuario;
 
     private String nombre;
@@ -26,23 +26,23 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String email;
 
-    // 📌 NECESARIO: Mantenemos el mapeo para la columna con el carácter 'ñ'
+    //Mantenemos el mapeo para la columna con el carácter 'ñ'
     @Column(name = "contraseña", nullable = false)
     private String password;
 
     private String telefono;
 
-    // 🧹 LIMPIO: Hibernate mapea tipoIdentificacion -> tipo_identificacion automáticamente.
+    //Hibernate mapea tipoIdentificacion -> tipo_identificacion automáticamente.
     private String tipoIdentificacion;
 
-    // 🧹 LIMPIO: Hibernate mapea numeroIdentificacion -> numero_identificacion automáticamente.
+    //Hibernate mapea numeroIdentificacion -> numero_identificacion automáticamente.
     private String numeroIdentificacion;
 
     /**
      * RELACIÓN CON ROL
      */
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_rol", nullable = false)// 🧹 LIMPIO: Hibernate mapea rol -> id_rol automáticamente.
+    @JoinColumn(name = "id_rol", nullable = false)//Hibernate mapea rol -> id_rol automáticamente.
     private Role rol;
 
     /**

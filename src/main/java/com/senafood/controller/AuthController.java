@@ -28,13 +28,13 @@ public class AuthController {
     public String showRegistrationForm(Model model) {
         // Asegura que el objeto User esté siempre disponible para el formulario Thymeleaf
         model.addAttribute("user", new User());
-        return "register"; // templates/register.html
+        return "register"; 
     }
 
     // Vista de login
     @GetMapping("/login")
     public String showLoginForm() {
-        return "login"; // templates/login.html
+        return "login"; 
     }
 
     @PostMapping("/register")
@@ -54,7 +54,7 @@ public class AuthController {
             return "redirect:/login?success";
 
         } catch (DataIntegrityViolationException e) {
-            // Captura errores de restricción de DB (ej. un campo NOT NULL vacío)
+            // Captura errores de restricción de DB 
             model.addAttribute("registrationError", "Error al guardar los datos. Verifique la información: " + e.getLocalizedMessage());
             return "register";
 

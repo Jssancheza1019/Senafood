@@ -1,5 +1,3 @@
-// src/main/java/com/senafood/service/UserServiceImpl.java
-
 package com.senafood.service;
 
 import com.senafood.model.Role;

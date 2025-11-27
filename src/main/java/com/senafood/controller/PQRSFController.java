@@ -10,8 +10,8 @@ import java.util.List;
 
 /**
  * Controlador REST para manejar las operaciones de PQRSF (Peticiones, Quejas, Reclamos, Sugerencias y Felicitaciones).
- * * NOTA: Esta implementación simula el comportamiento de un controlador REST
- * en Spring Boot. En un entorno real, usaría una interfaz Service y Repository.
+Esta implementación simula el comportamiento de un controlador REST
+en Spring Boot. En un entorno real, usaría una interfaz Service y Repository.
  */
 @RestController
 @RequestMapping("/api/pqrsf")
@@ -40,11 +40,10 @@ public class PQRSFController {
      */
     @PostMapping
     public ResponseEntity<PQRSF> createPqrsf(@RequestBody PQRSF pqrsf) {
-        // 1. SIMULACIÓN DE SEGURIDAD: Obtener el ID del usuario autenticado
-        // En un entorno real (Spring Security): Long userId = getCurrentAuthenticatedUserId();
+        //SIMULACIÓN DE SEGURIDAD: Obtener el ID del usuario autenticado
         Long simulatedUserId = 101L; // Usamos un ID de usuario fijo para la simulación
 
-        // 2. Asignar metadatos que el cliente no debería enviar
+        // Asignar metadatos que el cliente no debería enviar
         pqrsf.setId(nextId++);
         pqrsf.setIdUsuario(simulatedUserId); // Asignado desde el contexto de seguridad
         // El constructor de la entidad ya inicializa createAt y updateAt
@@ -54,13 +53,12 @@ public class PQRSFController {
             pqrsf.setIdCarrito(null);
         }
 
-        // 3. Persistir (simulado)
+        // Persistir (simulado)
         simulatedRepository.add(pqrsf);
         
         System.out.println("PQRSF Creada. ID: " + pqrsf.getId() + ", Tipo: " + pqrsf.getTipo() + ", Usuario: " + pqrsf.getIdUsuario());
 
-        // 4. Devolver la respuesta
-        // En una aplicación real: return new ResponseEntity<>(pqrsfService.save(pqrsf), HttpStatus.CREATED);
+        //  Devolver la respuesta
         return new ResponseEntity<>(pqrsf, HttpStatus.CREATED);
     }
     
@@ -73,7 +71,7 @@ public class PQRSFController {
     @PatchMapping("/{id}/status")
     public ResponseEntity<PQRSF> updatePqrsfStatus(@PathVariable Long id, @RequestParam String newStatus) {
         
-        // 1. Simular búsqueda en el repositorio
+        //  Simular búsqueda en el repositorio
         PQRSF existingPqrsf = simulatedRepository.stream()
             .filter(p -> p.getId().equals(id))
             .findFirst()
@@ -83,14 +81,13 @@ public class PQRSFController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        // 2. Actualizar campos
+        //  Actualizar campos
         existingPqrsf.setEstado(newStatus);
         existingPqrsf.setUpdateAt(LocalDateTime.now());
         
         System.out.println("PQRSF Actualizada. ID: " + id + ", Nuevo Estado: " + newStatus);
 
-        // 3. Persistir y devolver (simulado)
-        // En una aplicación real: pqrsfService.update(existingPqrsf);
+        // Persistir y devolver 
         return ResponseEntity.ok(existingPqrsf);
     }
 }

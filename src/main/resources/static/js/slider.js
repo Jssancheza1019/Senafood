@@ -2,11 +2,11 @@
  * Lógica para la rotación automática de imágenes en el carrusel (Slider)
  */
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Obtiene todos los elementos con la clase 'slider-image'
+    // Obtiene todos los elementos con la clase 'slider-image'
     const slides = document.querySelectorAll('.slider-image');
     let currentSlide = 0;
 
-    // ... (Mantener funciones showSlide y nextSlide igual) ...
+    //Mantener funciones showSlide y nextSlide igual
     function showSlide(index) {
         slides.forEach((slide) => {
             slide.classList.remove('active');
@@ -21,9 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showSlide(currentSlide);
     }
 
-    // ---------------------------------------------
-    // ** CORRECCIÓN: Llamar showSlide(0) inmediatamente **
-    // ---------------------------------------------
+    //  CORRECCIÓN: Llamar showSlide(0) inmediatamente 
     if (slides.length > 0) {
         // Asegura que la primera diapositiva (0) sea visible INMEDIATAMENTE
         showSlide(currentSlide); 

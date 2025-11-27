@@ -27,7 +27,7 @@ public class CustomRole implements AuthenticationSuccessHandler {
         // Obtiene la lista de roles/autoridades que tiene el usuario autenticado
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-        // URL a la que será redirigido un usuario sin rol especial (por ejemplo, un cliente)
+        // URL a la que será redirigido un usuario sin rol especial 
         String redirectUrl = "/dashboard";
 
         // Recorre los roles para verificar si el usuario tiene el rol de administrador
@@ -40,7 +40,7 @@ public class CustomRole implements AuthenticationSuccessHandler {
                 redirectUrl = "/admin/panel";
                 break; // Sale del ciclo porque ya encontró el rol
             }
-            // Si el rol es ROLE_CLIENTE, ROLE_MESERO u otro, se mantiene la URL por defecto
+            // Si el rol es ROLE_CLIENTE u otro, se mantiene la URL por defecto
         }
 
         // Realiza la redirección final dependiendo del rol encontrado

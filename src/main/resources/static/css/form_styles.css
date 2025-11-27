@@ -1,6 +1,5 @@
-/* ======================================= */
-/* 1. CUERPO Y FONDO (GRADIENTE) */
-/* ======================================= */
+
+/*  CUERPO Y FONDO (GRADIENTE) */
 .login-body {
     /* Gradiente de fondo suave, similar al ejemplo */
     background: linear-gradient(135deg, #f0fff0, #e0f8e0); 
@@ -14,9 +13,7 @@
     overflow-y: auto; 
 }
 
-/* ======================================= */
 /* 2. LOGO */
-/* ======================================= */
 .logo-wrapper {
     text-align: center;
     margin-bottom: 20px;
@@ -27,16 +24,15 @@
     height: auto;
 }
 
-/* ======================================= */
-/* 3. CONTENEDOR PRINCIPAL DEL FORMULARIO */
-/* ======================================= */
+
+/*CONTENEDOR PRINCIPAL DEL FORMULARIO */
 .login-container {
     max-width: 400px;
     width: 100%;
     /* Centra el contenedor verticalmente, si no estás usando login-body flex */
 }
 
-/* 🚨 Esta clase ahora se usa para el contenedor del REGISTRO y LOGIN 🚨 */
+/* 🚨 Esta clase ahora se usa para el contenedor del REGISTRO y LOGIN  */
 .form-card {
     background-color: white;
     padding: 30px;
@@ -54,9 +50,8 @@
     font-weight: bold;
 }
 
-/* ======================================= */
-/* 4. CAMPOS Y GRUPOS DE FORMULARIO */
-/* ======================================= */
+
+/* CAMPOS Y GRUPOS DE FORMULARIO */
 .form-group {
     margin-bottom: 15px; /* Ligeramente más pequeño para el formulario largo */
 }
@@ -83,9 +78,7 @@
     outline: none;
 }
 
-/* ======================================= */
-/* 5. BOTÓN DE REGISTRO/LOGIN */
-/* ======================================= */
+/*BOTÓN DE REGISTRO/LOGIN */
 .btn-register {
     width: 100%;
     padding: 12px;
@@ -105,9 +98,7 @@
     transform: translateY(-2px);
 }
 
-/* ======================================= */
 /* 6. ENLACES SECUNDARIOS */
-/* ======================================= */
 .register-link-text {
     text-align: center;
     margin-top: 20px;

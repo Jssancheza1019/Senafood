@@ -1,6 +1,5 @@
-/* ======================================= */
-/* 1. CONFIGURACIÓN GLOBAL Y DE TIPOGRAFÍA */
-/* ======================================= */
+
+/* CONFIGURACIÓN GLOBAL Y DE TIPOGRAFÍA */
 body, html {
     margin: 0;
     padding: 0;
@@ -9,11 +8,7 @@ body, html {
     background-color: #f8f8f8; /* Fondo sutil para el cuerpo */
 }
 
-/* ------------------------------------------------ */
-
-/* ======================================= */
-/* 2. SLIDER Y LOGO (Recuadro Superior) */
-/* ======================================= */
+/* SLIDER Y LOGO (Recuadro Superior) */
 .hero-slider-container {
     /* Define el área visible del slider */
     width: 100%;
@@ -44,11 +39,10 @@ body, html {
 .slider-wrapper {
     width: 100%; 
     height: 100%;
-    /* ************ MODIFICACIÓN CLAVE: POSITION ************ */
+    /*MODIFICACIÓN CLAVE: POSITION */
     position: relative; /* Hace que las imágenes absolutas se posicionen respecto a este contenedor */
 }
 
-/* Estilos de las imágenes del slider */
 /* Estilos de las imágenes del slider */
 .slider-image {
     width: 100%;
@@ -70,11 +64,7 @@ body, html {
     z-index: 1; /* Asegura que la imagen activa esté por encima */
 }
 
-/* ------------------------------------------------ */
-
-/* ======================================= */
-/* 3. SECCIÓN DE BIENVENIDA Y BOTONES */
-/* ======================================= */
+/* SECCIÓN DE BIENVENIDA Y BOTONES */
 .welcome-section-content {
     background-color: white; /* Fondo blanco como en la imagen */
     padding: 50px 20px;
@@ -100,11 +90,7 @@ body, html {
     font-weight: normal;
 }
 
-/* ------------------------------------------------ */
-
-/* ======================================= */
-/* 4. ESTILO DE BOTONES PÚBLICOS */
-/* ======================================= */
+/*  ESTILO DE BOTONES PÚBLICOS */
 .button-group-public {
     margin-top: 30px;
 }
