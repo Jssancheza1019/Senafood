@@ -1,93 +1,70 @@
+// Archivo: src/main/java/com/senafood/controller/PQRSFController.java
+
 package com.senafood.controller;
 
-import com.senafood.model.PQRSF;
+import com.senafood.model.PQRSF; // Asegúrate de que la ruta del paquete sea correcta
+import com.senafood.service.PQRSFService; // Asegúrate de que la ruta del paquete sea correcta
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Controlador REST para manejar las operaciones de PQRSF (Peticiones, Quejas, Reclamos, Sugerencias y Felicitaciones).
-Esta implementación simula el comportamiento de un controlador REST
-en Spring Boot. En un entorno real, usaría una interfaz Service y Repository.
- */
-@RestController
-@RequestMapping("/api/pqrsf")
+import java.util.List;
+import java.util.Map;
+import java.util.Optional; 
+
+@RestController // Indica que este controlador gestiona una API REST y devuelve datos (JSON)
+@RequestMapping("/api/pqrsf") // Ruta base para el API
 public class PQRSFController {
 
-    // Simulación de un servicio/repositorio para la persistencia
-    // En una aplicación real, inyectarías @Autowired private PQRSFService pqrsfService;
-    private final List<PQRSF> simulatedRepository = new ArrayList<>();
-    private Long nextId = 1L;
+    private final PQRSFService pqrsfService;
 
-    /**
-     * Endpoint para obtener todas las PQRSF (Solo para demostración/Administradores).
-     * @return Lista de PQRSF.
-     */
+    // Inyección de dependencia por constructor (Recomendada)
+    public PQRSFController(PQRSFService pqrsfService) {
+        this.pqrsfService = pqrsfService;
+    }
+
+    // 1. OBTENER TODAS LAS PQRSF
     @GetMapping
     public ResponseEntity<List<PQRSF>> getAllPqrsf() {
-        // En una aplicación real: return ResponseEntity.ok(pqrsfService.findAll());
-        return ResponseEntity.ok(simulatedRepository);
+        // Llama a obtenerTodos(), que asume usará la consulta JOIN FETCH para cargar el User
+        List<PQRSF> pqrsfList = pqrsfService.obtenerTodos(); 
+        return ResponseEntity.ok(pqrsfList);
     }
 
-    /**
-     * Endpoint para crear una nueva PQRSF.
-     * Simula la obtención del idUsuario del contexto de seguridad.
-     * * @param pqrsf La entidad PQRSF enviada por el cliente.
-     * @return Respuesta HTTP con la PQRSF creada.
-     */
-    @PostMapping
-    public ResponseEntity<PQRSF> createPqrsf(@RequestBody PQRSF pqrsf) {
-        //SIMULACIÓN DE SEGURIDAD: Obtener el ID del usuario autenticado
-        Long simulatedUserId = 101L; // Usamos un ID de usuario fijo para la simulación
+    // 2. OBTENER PQRSF POR ID
+    @GetMapping("/{id}")
+    public ResponseEntity<PQRSF> getPqrsfById(@PathVariable Long id) {
+        Optional<PQRSF> pqrsf = pqrsfService.findById(id); 
+        // Si lo encuentra, devuelve 200 OK con el cuerpo; si no, devuelve 404 Not Found
+        return pqrsf.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
 
-        // Asignar metadatos que el cliente no debería enviar
-        pqrsf.setId(nextId++);
-        pqrsf.setIdUsuario(simulatedUserId); // Asignado desde el contexto de seguridad
-        // El constructor de la entidad ya inicializa createAt y updateAt
+    // 3. ACTUALIZAR ESTADO (PATCH)
+    @PatchMapping("/estado/{id}")
+    public ResponseEntity<Object> updatePqrsfEstado(
+            @PathVariable Long id, 
+            @RequestBody Map<String, String> requestBody) {
         
-        // El idCarrito puede ser null si es una sugerencia o felicitación general.
-        if (pqrsf.getIdCarrito() == null || pqrsf.getIdCarrito() == 0) {
-            pqrsf.setIdCarrito(null);
+        String nuevoEstado = requestBody.get("nuevoEstado");
+
+        if (nuevoEstado == null || nuevoEstado.trim().isEmpty()) {
+            return new ResponseEntity<>("El campo 'nuevoEstado' es requerido.", HttpStatus.BAD_REQUEST);
         }
 
-        // Persistir (simulado)
-        simulatedRepository.add(pqrsf);
-        
-        System.out.println("PQRSF Creada. ID: " + pqrsf.getId() + ", Tipo: " + pqrsf.getTipo() + ", Usuario: " + pqrsf.getIdUsuario());
-
-        //  Devolver la respuesta
-        return new ResponseEntity<>(pqrsf, HttpStatus.CREATED);
+        try {
+            PQRSF pqrsfActualizada = pqrsfService.actualizarEstado(id, nuevoEstado);
+            return ResponseEntity.ok(pqrsfActualizada);
+            
+        } catch (RuntimeException e) {
+            // Maneja la excepción si el ID no existe (lanzada desde el Servicio)
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); 
+        }
     }
     
-    /**
-     * Endpoint para actualizar el estado de una PQRSF.
-     * @param id ID de la PQRSF a actualizar.
-     * @param newStatus Nuevo estado (e.g., "En proceso", "Resuelta").
-     * @return Respuesta HTTP.
-     */
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<PQRSF> updatePqrsfStatus(@PathVariable Long id, @RequestParam String newStatus) {
-        
-        //  Simular búsqueda en el repositorio
-        PQRSF existingPqrsf = simulatedRepository.stream()
-            .filter(p -> p.getId().equals(id))
-            .findFirst()
-            .orElse(null);
-
-        if (existingPqrsf == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        //  Actualizar campos
-        existingPqrsf.setEstado(newStatus);
-        existingPqrsf.setUpdateAt(LocalDateTime.now());
-        
-        System.out.println("PQRSF Actualizada. ID: " + id + ", Nuevo Estado: " + newStatus);
-
-        // Persistir y devolver 
-        return ResponseEntity.ok(existingPqrsf);
+    // 4. CREAR NUEVA PQRSF
+    @PostMapping
+    public ResponseEntity<PQRSF> createPqrsf(@RequestBody PQRSF pqrsf) {
+        PQRSF savedPqrsf = pqrsfService.guardarPQRSF(pqrsf);
+        return new ResponseEntity<>(savedPqrsf, HttpStatus.CREATED);
     }
 }

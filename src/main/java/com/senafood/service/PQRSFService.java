@@ -1,0 +1,64 @@
+// Archivo: src/main/java/com/senafood/service/PQRSFService.java
+
+package com.senafood.service;
+
+import com.senafood.model.PQRSF;
+import com.senafood.repository.PqrsfRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional; // ¡IMPORTAR ESTO!
+
+@Service 
+public class PQRSFService {
+
+    // Inyección de dependencia por constructor
+    private final PqrsfRepository pqrsfRepository;
+
+    public PQRSFService(PqrsfRepository pqrsfRepository) {
+        this.pqrsfRepository = pqrsfRepository;
+    }
+
+    @Transactional
+    public PQRSF guardarPQRSF(PQRSF pqrsf) {
+        // Asignación de valores iniciales (el usuario ya viene asignado del controlador)
+        pqrsf.setCreateAt(LocalDateTime.now());
+        pqrsf.setEstado("PENDIENTE"); 
+        pqrsf.setUpdateAt(LocalDateTime.now());
+        
+        return pqrsfRepository.save(pqrsf);
+    }
+
+    /**
+     * Retorna todas las solicitudes PQRSF (usando JOIN FETCH).
+     */
+    public List<PQRSF> obtenerTodos() {
+        // Usamos la nueva consulta del repositorio
+        return pqrsfRepository.findAllWithUsuario(); 
+    }
+
+    /**
+     * MÉTODO FALTANTE (findById) - Necesario para la vista de detalle.
+     */
+    public Optional<PQRSF> findById(Long id) {
+        return pqrsfRepository.findById(id);
+    }
+
+    @Transactional
+    public PQRSF actualizarEstado(Long id, String nuevoEstado) {
+        
+        Optional<PQRSF> pqrsfOptional = pqrsfRepository.findById(id);
+
+        if (pqrsfOptional.isEmpty()) {
+            throw new RuntimeException("PQRSF con ID " + id + " no encontrado.");
+        }
+
+        PQRSF pqrsf = pqrsfOptional.get();
+        pqrsf.setEstado(nuevoEstado);
+        pqrsf.setUpdateAt(LocalDateTime.now()); 
+
+        return pqrsfRepository.save(pqrsf);
+    }
+}
