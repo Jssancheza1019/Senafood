@@ -14,7 +14,7 @@
         <div class="card-body">
             
             <p><strong>Estado:</strong> <span th:text="${pqrsf.estado}">PENDIENTE</span></p>
-            <p><strong>Usuario ID:</strong> <span th:text="${pqrsf.idUsuario}">101</span></p>
+            <p><strong>Usuario:</strong> <span th:text="${pqrsf.usuario.nombre} + ' ' + ${pqrsf.usuario.apellido}">Sebastian Sanchez</span></p>
             <p><strong>Fecha de Creación:</strong> <span th:text="${#temporals.format(pqrsf.createAt, 'dd/MM/yyyy HH:mm')}"></span></p>
             <p><strong>Última Actualización:</strong> <span th:text="${#temporals.format(pqrsf.updateAt, 'dd/MM/yyyy HH:mm')}"></span></p>
             

@@ -50,4 +50,16 @@ public class PQRSF {
     protected void onUpdate() {
         updateAt = LocalDateTime.now();
     }
+
+    @Column(nullable = false)
+    private boolean leida = false; // Mapea al TINYINT(1) de MySQL, 0 es false (No Leída)
+
+    // Genera el getter y setter:
+    public boolean isLeida() {
+        return leida;
+    }
+
+    public void setLeida(boolean leida) {
+        this.leida = leida;
+    }
 }
