@@ -1,0 +1,131 @@
+/* ======================================= */
+/* Archivo: src/main/resources/static/css/pqrsf/detail.css */
+/* Estilos para la vista de Detalle de Solicitud PQRSF */
+/* ======================================= */
+
+/* --- Variables de Color --- */
+:root {
+    --primary-green: #007f4e; /* Verde institucional */
+    --primary-green-light: #00b36c;
+    --secondary-gray: #6c757d; 
+    --secondary-gray-dark: #5a6268;
+    --card-bg-color: #f8f9fa; /* Fondo gris muy claro para el detalle */
+    --info-color: #17a2b8; /* Color azul para información */
+}
+
+/* --- Título Principal --- */
+.content h2 {
+    color: #343a40;
+    font-weight: 700;
+    font-size: 2rem;
+    padding-bottom: 10px;
+    margin-bottom: 30px !important;
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* --- Contenedor Principal (Card) --- */
+.card.p-4.shadow {
+    border: none;
+    border-radius: 16px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra elegante */
+    max-width: 800px; /* Ancho cómodo para la lectura */
+    margin: 0 auto 30px auto; /* Centrar y margen inferior */
+    overflow: hidden; /* Asegura que la cabecera redondeada funcione bien */
+    background-color: white;
+}
+
+/* --- Cabecera de la Solicitud (Tipo de Solicitud) --- */
+.card-header.bg-info.text-white {
+    /* El tipo es lo más importante: Petición, Queja, etc. */
+    background-color: var(--primary-green) !important; /* Usamos el verde principal para la cabecera */
+    color: white !important;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 15px 25px;
+    border-bottom: none;
+    border-radius: 16px 16px 0 0; /* Solo bordes superiores redondeados */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- Cuerpo del Detalle (Card Body) --- */
+.card-body {
+    padding: 30px 25px;
+}
+
+/* Estilo para las etiquetas de información (fuertes) */
+.card-body p {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+}
+.card-body strong {
+    color: #495057;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+/* Resaltado del Estado (usando un badge visual) */
+.card-body p:first-of-type span {
+    /* Estilo para el span del estado */
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 5px;
+    color: white;
+    background-color: var(--info-color); /* Color azul por defecto */
+    display: inline-block;
+}
+
+/* Personalización del color del Estado según su valor (si tu backend lo permite) */
+/* .pqrsf-estado-PENDIENTE { background-color: orange; } */
+/* .pqrsf-estado-RESUELTO { background-color: var(--primary-green); } */
+
+/* --- Separador y Descripción --- */
+hr {
+    margin: 20px 0;
+    border-top: 1px solid var(--border-color-subtle);
+}
+
+h5 {
+    color: var(--primary-green);
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+.card-body p:last-of-type {
+    /* La descripción del cuerpo */
+    white-space: pre-wrap; /* Mantiene saltos de línea y espacios */
+    line-height: 1.6;
+    color: #343a40;
+    background-color: var(--card-bg-color);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color-subtle);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Footer (Botón de Volver) --- */
+.card-footer.text-end {
+    background-color: var(--card-bg-color);
+    padding: 20px 25px;
+    border-top: 1px solid var(--border-color-subtle);
+    border-radius: 0 0 16px 16px;
+}
+
+/* Botón Volver a la Lista (.btn-secondary) - Estilo Píldora */
+.btn-secondary {
+    background-color: var(--secondary-gray) !important;
+    border-color: var(--secondary-gray) !important;
+    color: white !important;
+    font-weight: 600;
+    
+    border-radius: 50px;
+    padding: 10px 25px;
+    box-shadow: 0 5px 10px rgba(108, 117, 125, 0.2);
+    transition: all 0.3s ease;
+}
+.btn-secondary:hover {
+    background-color: var(--secondary-gray-dark) !important;
+    border-color: var(--secondary-gray-dark) !important;
+    box-shadow: 0 7px 15px rgba(108, 117, 125, 0.3);
+    transform: translateY(-1px);
+}

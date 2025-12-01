@@ -1,0 +1,115 @@
+/* ======================================= */
+/* Archivo: src/main/resources/static/css/pqrsf/list.css */
+/* Estilos generales para la vista de lista de PQRSF */
+/* ======================================= */
+
+/* --- Variables de Color --- */
+:root {
+    --primary-green: #28a745; /* Verde vibrante */
+    --primary-green-dark: #1e7e34;
+    --secondary-blue: #17a2b8; /* Color azul base para 'Regresar' */
+    --secondary-blue-dark: #138496; 
+    --card-shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* --- Título Principal y Contenedores --- */
+.content h2 {
+    color: #db0e0e; /* Color de texto más oscuro y fuerte */
+    border-bottom: 3px solid var(--primary-green); /* Línea divisoria verde fuerte */
+    padding-bottom: 15px; /* Espacio debajo de la línea */
+    margin-bottom: 40px !important; /* Más separación del formulario */
+    font-weight: 700; /* Negrita fuerte */
+    text-align: center; /* Centrado */
+    font-size: 2.2rem; /* Texto más grande */
+    letter-spacing: 1px; /* Espaciado sutil entre letras */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05); /* Sombra de texto muy sutil */
+}
+.d-flex.justify-content-between.mb-3 {
+    margin-bottom: 25px !important;
+    padding: 0 5px;
+}
+/* --- Estilo de la Tarjeta (Card) y Tabla (thead/tbody) --- */
+.card.shadow {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 0.5rem 1rem var(--card-shadow-color);
+}
+.table thead.bg-success th {
+    background-color: #198754 !important; 
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    vertical-align: middle;
+    padding: 12px 8px;
+    border-color: #198754;
+}
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+.table tbody td {
+    vertical-align: middle;
+    padding: 10px 8px;
+    font-size: 0.9rem;
+    color: #495057;
+}
+.table td:nth-child(1), .table td:nth-child(4), .table td:nth-child(6) {
+    white-space: nowrap;
+}
+
+/* --- Estilos de Botones --- */
+
+/* ⭐ Botón Regresar (.btn-info) - Estilo Moderno Azul ⭐ */
+.btn-info {
+    background-color: var(--secondary-blue) !important;
+    border-color: var(--secondary-blue) !important;
+    color: white !important;
+    font-weight: 600;
+    
+    /* Mismo estilo de 'Nueva PQRSF' */
+    border-radius: 8px; 
+    padding: 8px 15px; 
+    box-shadow: 0 4px 6px rgba(23, 162, 184, 0.4); /* Sombra azul */
+    transition: all 0.2s ease-in-out; 
+}
+.btn-info:hover {
+    background-color: var(--secondary-blue-dark) !important;
+    border-color: var(--secondary-blue-dark) !important;
+    box-shadow: 0 6px 8px rgba(23, 162, 184, 0.5); 
+    transform: translateY(-1px);
+}
+/* FIN MODIFICACIÓN BOTÓN REGRESAR */
+
+
+/* Botón Nueva PQRSF (.btn-success) */
+.btn-success {
+    background-color: var(--primary-green) !important; 
+    border-color: var(--primary-green) !important;
+    color: white !important;
+    font-weight: 600;
+    
+    /* Estilo Moderno */
+    border-radius: 8px; 
+    padding: 8px 15px; 
+    box-shadow: 0 4px 6px rgba(40, 167, 69, 0.4); 
+    transition: all 0.2s ease-in-out; 
+}
+.btn-success:hover {
+    background-color: var(--primary-green-dark) !important;
+    border-color: var(--primary-green-dark) !important;
+    box-shadow: 0 6px 8px rgba(40, 167, 69, 0.5); 
+    transform: translateY(-1px);
+}
+
+/* Botones de Acción dentro de la tabla (.btn-sm) */
+.btn-sm {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+    line-height: 1;
+    margin: 2px;
+}
+.table td:last-child {
+    white-space: nowrap;
+}
