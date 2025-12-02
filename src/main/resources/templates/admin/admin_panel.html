@@ -14,13 +14,25 @@
             <span class="app-title">Dashboard</span>
         </div>
 
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/pqrsf}">
-                <i class="fas fa-comments"></i> 
-            <span>Gestión PQRSF</span>
-            </a>
-        </li>
-
+            <nav class="nav-menu">
+                <!-- Enlace a Productos -->
+                <a class="nav-link" th:href="@{/producto}">
+                    <i class="fas fa-box"></i>
+                    <span>Productos</span>
+                </a>
+                
+                <!-- Enlace a Catálogo -->
+                <a class="nav-link" th:href="@{/producto/catalogo}">
+                    <i class="fas fa-store"></i>
+                    <span>Catálogo</span>
+                </a>
+                
+                <!-- Enlace a PQRSF -->
+                <a class="nav-link" th:href="@{/pqrsf}">
+                    <i class="fas fa-comments"></i>
+                    <span>PQRSF</span>
+                </a>
+            </nav>
         <div class="header-right">
             <div sec:authorize="isAuthenticated()" class="user-profile-menu">
                 
