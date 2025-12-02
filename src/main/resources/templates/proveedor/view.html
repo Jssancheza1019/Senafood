@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SenaFood - Gestión de Proveedores</title>
+    <!-- Asumiendo que el CSS se carga desde un enlace dinámico o estático -->
+    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="icon" type="image/png" href="../../static/img/sena_food_logo.png">
+</head>
+<body>
+
+    <!-- Barra de Navegación -->
+    <header class="navbar">
+        <div class="logo-container">
+            <!-- Reemplaza con la ruta correcta de tu logo -->
+            <img src="../../static/img/sena_food_logo.png" alt="Logo SenaFood">
+            SenaFood
+        </div>
+        <div class="nav-links">
+            <a href="/dashboard">Inicio</a>
+            <a href="/productos">Productos</a>
+            <a href="/proveedores">Proveedores</a>
+            <a href="/ordenes_compra">Órdenes de Compra</a>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal de Contenido -->
+    <div class="content-wrapper">
+        <div class="view-header">
+            <h1>Gestión de Proveedores</h1>
+            <div class="action-buttons">
+                <a href="/proveedores/form" class="btn-primary">Crear Nuevo Proveedor</a>
+                <button class="btn-secondary">Reporte PDF</button>
+                <button class="btn-secondary">Reporte Excel</button>
+            </div>
+        </div>
+
+        <!-- Tabla de Proveedores -->
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Contacto (Email)</th>
+                    <th>Teléfono</th>
+                    <th>NIT</th>
+                    <th>Dirección</th>
+                    <th style="width: 15%;">Modificar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Ejemplo de fila de datos (se llenará dinámicamente con Spring/Thymeleaf) -->
+                <tr>
+                    <td data-label="Nombre">Distribuidora La Casa</td>
+                    <td data-label="Contacto (Email)">contacto@lacasa.com</td>
+                    <td data-label="Teléfono">310 123 4567</td>
+                    <td data-label="NIT">900.123.456-1</td>
+                    <td data-label="Dirección">Calle 10 # 20 - 30, Bogotá</td>
+                    <td class="action-cell">
+                        <a href="/proveedores/form/1" class="btn-edit">Editar</a>
+                        <button class="btn-delete">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Nombre">Alimentos del Campo S.A.S.</td>
+                    <td data-label="Contacto (Email)">ventas@alimentosdelcampo.co</td>
+                    <td data-label="Teléfono">601 765 4321</td>
+                    <td data-label="NIT">890.987.654-2</td>
+                    <td data-label="Dirección">Carrera 5 # 100 - 15, Medellín</td>
+                    <td class="action-cell">
+                        <a href="/proveedores/form/2" class="btn-edit">Editar</a>
+                        <button class="btn-delete">Eliminar</button>
+                    </td>
+                </tr>
+                <!-- Fin del ejemplo -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Descripción/Footer -->
+    <footer class="description">
+        SenaFood - Gestión Eficiente de Inventario y Compras.
+    </footer>
+
+    <!-- Script para funcionalidad de botones de reportes y eliminación (ejemplo) -->
+    <script>
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', () => {
+                // Aquí iría el código para mostrar un modal de confirmación antes de eliminar
+                console.log('Intento de eliminar proveedor');
+            });
+        });
+        document.querySelectorAll('.btn-secondary').forEach(button => {
+            button.addEventListener('click', () => {
+                console.log(`Generando ${button.textContent} para Proveedores`);
+                // Aquí iría la lógica de generación del reporte (llamada a controlador)
+            });
+        });
+    </script>
+</body>
+</html>

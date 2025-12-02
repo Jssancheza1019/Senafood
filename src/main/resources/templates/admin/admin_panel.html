@@ -21,6 +21,14 @@
             </a>
         </li>
 
+        <div class="nav-links-container">
+            <!-- Enlace a Gestión de Proveedores -->
+            <a class="nav-link" th:href="@{/proveedor}">
+                <i class="fas fa-truck-moving"></i> 
+                <span>Proveedores</span>
+            </a>
+        </div>
+
         <div class="header-right">
             <div sec:authorize="isAuthenticated()" class="user-profile-menu">
                 

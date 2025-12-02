@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'SenaFood - ' + ${titulo}">SenaFood - Formulario Proveedor</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="icon" type="image/png" th:href="@{/img/sena_food_logo.png}">
+</head>
+<body>
+
+    <!-- Barra de Navegación -->
+    <header class="navbar">
+        <div class="logo-container">
+            <!-- Asume que tienes una imagen en /static/img/sena_food_logo.png -->
+            <img th:src="@{/img/sena_food_logo.png}" alt="Logo SenaFood">
+            SenaFood
+        </div>
+        <div class="nav-links">
+            <a th:href="@{/dashboard}">Inicio</a>
+            <a th:href="@{/productos}">Productos</a>
+            <a th:href="@{/proveedores}">Proveedores</a>
+            <a th:href="@{/ordenes_compra}">Órdenes de Compra</a>
+        </div>
+    </header>
+
+    <!-- Contenedor del Formulario -->
+    <div class="form-container">
+        <!-- El título cambia según si es creación o edición -->
+        <h2 th:text="${titulo}">Crear Nuevo Proveedor</h2>
+
+        <!-- Action apunta al método POST /proveedores/save y enlaza con el objeto 'proveedor' -->
+        <form th:action="@{/proveedores/save}" th:object="${proveedor}" method="POST">
+            
+            <!-- Campo oculto para ID en caso de edición -->
+            <input type="hidden" th:field="*{id}">
+
+            <div class="form-group">
+                <label for="nombre">Nombre del Proveedor</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required placeholder="Ej: Distribuidora La Casa">
+            </div>
+
+            <div class="form-group">
+                <label for="nit">NIT</label>
+                <input type="text" id="nit" th:field="*{nit}" required placeholder="Ej: 900.123.456-1">
+            </div>
+            
+            <div class="form-group">
+                <label for="contactoEmail">Contacto (Correo Electrónico)</label>
+                <input type="email" id="contactoEmail" th:field="*{contactoEmail}" required placeholder="Ej: contacto@empresa.com">
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" th:field="*{telefono}" required placeholder="Ej: 310 123 4567">
+            </div>
+
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" th:field="*{direccion}" required placeholder="Ej: Calle 10 # 20 - 30">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Guardar Proveedor</button>
+                <a th:href="@{/proveedores}" class="btn-secondary" style="text-align: center;">Cancelar / Volver</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Descripción/Footer -->
+    <footer class="description">
+        SenaFood - Gestión Eficiente de Inventario y Compras.
+    </footer>
+</body>
+</html>
