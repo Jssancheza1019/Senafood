@@ -3,13 +3,14 @@
 package com.senafood.service;
 
 import com.senafood.model.PQRSF;
+import com.senafood.model.User; // ⭐ Importar la entidad Usuario ⭐
 import com.senafood.repository.PqrsfRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional; // ¡IMPORTAR ESTO!
+import java.util.Optional; 
 
 @Service 
 public class PQRSFService {
@@ -39,8 +40,18 @@ public class PQRSFService {
         return pqrsfRepository.findAllWithUsuario(); 
     }
 
+    // ⭐ MÉTODO AÑADIDO: Filtrar PQRSF por Usuario (para la vista del cliente) ⭐
     /**
-     * MÉTODO FALTANTE (findById) - Necesario para la vista de detalle.
+     * Retorna todas las solicitudes PQRSF creadas por un usuario específico.
+     */
+    public List<PQRSF> findByUsuario(User usuario) {
+        // Llama al método que definimos en el PqrsfRepository
+        return pqrsfRepository.findByUsuarioOrderByCreateAtDesc(usuario);
+    }
+
+
+    /**
+     * Retorna una solicitud PQRSF por su ID.
      */
     public Optional<PQRSF> findById(Long id) {
         return pqrsfRepository.findById(id);
