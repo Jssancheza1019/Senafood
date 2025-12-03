@@ -104,17 +104,24 @@ public class PqrsfViewController {
         
         boolean debeGuardar = false; 
 
-        // LÓGICA DE MARCAR COMO LEÍDA 
-        if (!pqrsf.isLeida()) {
-            pqrsf.setLeida(true);
-            debeGuardar = true; 
-        }
+        // LÓGICA DE MODIFICACIÓN: SOLO SE EJECUTA SI ES ADMINISTRADOR
+        if (isAdmin) { 
+            
+            // LÓGICA DE MARCAR COMO LEÍDA 
+            if (!pqrsf.isLeida()) {
+                pqrsf.setLeida(true);
+                // *Opcional: Agregar la actualización del updateAt aquí si no lo haces en el servicio*
+                debeGuardar = true; 
+            }
+            
+            // LÓGICA DE CAMBIO DE CERRADO A PENDIENTE 
+            if ("CERRADO".equals(pqrsf.getEstado())) {
+                pqrsf.setEstado("PENDIENTE");
+                // *Opcional: Agregar la actualización del updateAt aquí si no lo haces en el servicio*
+                debeGuardar = true; 
+            }
         
-        // LÓGICA DE CAMBIO DE CERRADO A PENDIENTE 
-        if ("CERRADO".equals(pqrsf.getEstado())) {
-            pqrsf.setEstado("PENDIENTE");
-            debeGuardar = true; 
-        }
+        } // FIN DE LA VERIFICACIÓN isAdmin
         
         // PERSISTIR CAMBIOS
         if (debeGuardar) {
@@ -122,6 +129,7 @@ public class PqrsfViewController {
         }
 
         model.addAttribute("pqrsf", pqrsf);
-        return "pqrsf/view"; 
+        model.addAttribute("isAdmin", isAdmin); // Asegúrate de que esta línea esté, si la usas en la vista
+        return "pqrsf/view";
     }
 }

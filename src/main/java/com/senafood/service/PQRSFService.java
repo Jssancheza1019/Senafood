@@ -58,6 +58,28 @@ public class PQRSFService {
     }
 
     @Transactional
+    public PQRSF marcarComoLeida(Long id) {
+        Optional<PQRSF> pqrsfOptional = pqrsfRepository.findById(id);
+
+        if (pqrsfOptional.isEmpty()) {
+            // Es preferible usar EntityNotFoundException, pero mantendremos el que usas
+            throw new RuntimeException("PQRSF con ID " + id + " no encontrado."); 
+        }
+
+        PQRSF pqrsf = pqrsfOptional.get();
+        
+        // Solo actualiza si el estado actual es 'false'
+        if (!pqrsf.isLeida()) { 
+            pqrsf.setLeida(true);
+            pqrsf.setUpdateAt(LocalDateTime.now()); 
+            // Como el método es @Transactional, el cambio se guardará, 
+            // pero explícitamente podemos hacer save para asegurar la persistencia.
+            return pqrsfRepository.save(pqrsf); 
+        }
+        
+        return pqrsf;
+    }
+    @Transactional
     public PQRSF actualizarEstado(Long id, String nuevoEstado) {
         
         Optional<PQRSF> pqrsfOptional = pqrsfRepository.findById(id);
