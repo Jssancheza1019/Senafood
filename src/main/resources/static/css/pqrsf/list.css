@@ -113,3 +113,71 @@
 .table td:last-child {
     white-space: nowrap;
 }
+.btn-sm.btn-info {
+    background-color: transparent !important;
+    color: var(--secondary-blue) !important;
+    border: 1px solid var(--secondary-blue) !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+}
+
+.btn-sm.btn-info:hover {
+    background-color: var(--secondary-blue) !important;
+    color: white !important;
+    transform: none;
+}
+/* --- Estilos para la Paginación (nav, ul, li, a) --- */
+
+/* Contenedor principal de la paginación */
+.pagination {
+    display: flex; /* Asegura que los elementos se alineen horizontalmente */
+    padding-left: 0;
+    list-style: none; /* Elimina los puntos de lista que aparecen en la imagen */
+    border-radius: 0.25rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Cada elemento de la lista (Anterior, 1, 2, Siguiente) */
+.page-item {
+    margin: 0 2px;
+}
+
+/* El enlace (texto) dentro de cada elemento */
+.page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    line-height: 1.25;
+    color: var(--secondary-blue); /* Color del texto del enlace (azul) */
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    transition: all 0.2s;
+}
+
+/* Efecto al pasar el ratón (hover) y focus */
+.page-link:hover, .page-link:focus {
+    color: #fff;
+    background-color: var(--secondary-blue); /* Relleno azul */
+    border-color: var(--secondary-blue);
+    text-decoration: none;
+    z-index: 2; /* Para que la caja de hover se vea bien */
+}
+
+/* Elemento Deshabilitado (p. ej., 'Anterior' en la página 1) */
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}
+
+/* Elemento Activo (página actual) */
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: var(--secondary-blue); /* Fondo azul sólido */
+    border-color: var(--secondary-blue);
+}
