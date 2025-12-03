@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Producto - SenaFood</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h2>Editar Producto</h2>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-container">
+            <form th:action="@{'/producto/update/' + ${producto.idProducto}}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="_method" value="PUT">
+                <div th:replace="producto/partials/form :: form"></div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

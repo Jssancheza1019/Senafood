@@ -1,0 +1,296 @@
+/*
+ * Archivo: static/css/producto/producto.css (FINAL - Estilo Limpio/Verde/Naranja)
+ * Descripción: Estilos para la vista de Gestión de Productos.
+ */
+
+/* --- Colores de la paleta (Estilo limpio del Catálogo) --- */
+:root {
+    --primary-color: #28a745; /* Verde fuerte (Para Header, Paginación, Informes) */
+    --secondary-color: #D86600; /* Naranja oscuro (Para Crear Producto y Botón Principal) */
+    --regresar-color: #FFB347; /* Naranja Claro Solicitado (Para Botón Volver) */
+    --warning-color: #555; /* Gris oscuro para Modificar (Anteriormente amarillo) */
+    --danger-color: #333; /* Negro/Gris muy oscuro para Eliminar (Anteriormente rojo) */
+    
+    --header-bg: white; /* Fondo del header ahora blanco */
+    --header-text: var(--primary-color); /* Título del header en verde */
+    
+    --bg-light: #f7f7f7; /* Fondo general claro */
+    --border-color: #eee; /* Borde de tabla más sutil */
+    --text-color: #333;
+    --dark-green-hover: #1e7e34;
+    --dark-orange-hover: #b85700;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Estilos Globales (Header, Container) --- */
+.header {
+    background-color: var(--header-bg); /* Blanco */
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 3px solid var(--border-color); /* Borde sutil */
+}
+
+.header h2 {
+    margin: 0;
+    font-weight: 600;
+    color: var(--header-text); /* Título en verde */
+    font-size: 1.8em;
+    text-align: center; /* CENTRADO DEL TÍTULO */
+}
+
+.container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+.table-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra más limpia */
+}
+
+/* --- Área de Botones Superiores --- */
+
+.top-actions {
+    display: flex;
+    justify-content: space-between; /* Empuja informes a la izquierda y el grupo a la derecha */
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.actions-group {
+    display: flex;
+    flex-direction: column; /* Apila los botones verticalmente (Crear y Volver) */
+    gap: 10px; 
+    align-items: flex-end; /* Alinea los botones a la derecha */
+}
+
+.actions-left {
+    display: flex;
+    align-items: center;
+}
+
+/* --- Estilos de Botones --- */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.1s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background-color: var(--secondary-color); /* Naranja Oscuro (Crear Producto) */
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--dark-orange-hover);
+}
+
+/* BOTÓN REGRESAR (Naranja Claro) */
+.btn-regresar {
+    background-color: var(--regresar-color); /* Naranja Claro Solicitado */
+    color: var(--text-color); /* Texto oscuro para contraste */
+}
+
+.btn-regresar:hover {
+    background-color: #ff9933;
+}
+
+/* Estilos para los botones dentro de la tabla */
+.btn-warning {
+    background-color: var(--warning-color); /* GRIS OSCURO (MODIFICAR) */
+    color: white;
+    padding: 6px 10px;
+}
+
+.btn-warning:hover {
+    background-color: #444;
+}
+
+.btn-danger {
+    background-color: var(--danger-color); /* NEGRO (ELIMINAR) */
+    color: white;
+    padding: 6px 10px;
+}
+
+.btn-danger:hover {
+    background-color: black;
+}
+
+.btn-sm {
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+/* --- Dropdown de Informes --- */
+#informesBtn {
+    background-color: var(--primary-color); /* Verde */
+    color: white;
+}
+
+#informesBtn:hover {
+    background-color: var(--dark-green-hover);
+}
+
+.relative {
+    position: relative;
+}
+
+.informes-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 10px;
+    z-index: 100;
+    margin-top: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.informes-menu .flex {
+    gap: 10px;
+}
+
+.export-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color); /* Verde */
+    padding: 5px;
+    cursor: pointer;
+    font-size: 20px; /* Iconos grandes */
+}
+
+.export-btn:hover {
+    color: var(--dark-green-hover);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Alertas y DataTables (sin cambios relevantes) --- */
+.alert {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    font-weight: bold;
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d0e9c6;
+}
+
+.alert-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+/* Ocultar botones predeterminados de DataTables (los grises) */
+.dt-buttons {
+    display: none !important;
+}
+
+/* Estilos de la Tabla (DataTables) */
+#producto thead th {
+    background-color: var(--primary-color); 
+    color: white;
+    padding: 12px 10px;
+    text-align: left;
+    font-weight: bold;
+    border-right: 1px solid var(--dark-green-hover); 
+    cursor: pointer;
+}
+
+/* Columna de Costo Unitario */
+td:nth-child(3) {
+    text-align: right; 
+    font-weight: 600;
+}
+
+/* --- AJUSTES ESPECÍFICOS PARA EL MENÚ DE INFORMES Y BUSCADOR --- */
+
+/* 1. Menú de Informes Grande y Horizontal */
+
+.informes-menu {
+    /* Ajustes para hacerlo más ancho y centrar los iconos */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    /* ANCHURA AUMENTADA */
+    width: 250px; 
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px 15px; /* Más padding */
+    z-index: 100;
+    margin-top: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.informes-menu .flex {
+    /* Asegura que los botones internos sean horizontales y estén espaciados */
+    display: flex;
+    justify-content: space-between; /* Espaciado uniforme */
+    gap: 0; /* Ya no necesitamos gap si usamos justify-content: space-between */
+}
+
+.export-btn {
+    /* Asegurar que los botones sean solo los íconos */
+    background: none;
+    border: none;
+    color: var(--primary-color); 
+    padding: 5px;
+    cursor: pointer;
+    font-size: 22px; /* Íconos un poco más grandes */
+}
+
+/* 2. Barra de Búsqueda Larga con Lupa (DataTables) */
+
+/* Contenedor del filtro */
+.dataTables_wrapper .dataTables_filter {
+    position: relative; /* Para posicionar la lupa */
+    margin-bottom: 15px;
+}
+
+/* Input de Búsqueda más largo */
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #ccc;
+    padding: 8px 10px 8px 35px; /* Padding izquierdo para la lupa */
+    border-radius: 20px; 
+    width: 350px; /* Longitud aumentada */
+    transition: width 0.3s ease;
+}
+
+/* Asegurar que la lupa no interfiera con el focus */
+.dataTables_wrapper .dataTables_filter input:focus + .dataTables_filter:before {
+    color: var(--primary-color);
+}
