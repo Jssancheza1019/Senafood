@@ -94,7 +94,7 @@ public class PqrsfViewController {
         PQRSF pqrsf = pqrsfOptional.get();
 
         // 1. Determinar si el usuario es un administrador
-        boolean isAdmin = userLogueado.getRol().getNombreRol().equals("ADMIN"); 
+        boolean isAdmin = userLogueado.getRol().getNombreRol().equals("Administrador"); 
 
         // 2. Si el usuario no es admin Y la PQRSF no le pertenece, denegar el acceso.
         if (!isAdmin && !pqrsf.getUsuario().getIdUsuario().equals(userLogueado.getIdUsuario())) {
