@@ -17,8 +17,7 @@ public class SecurityConfig {
     // Spring inyectará automáticamente el bean de CustomRole.
     // Este handler será responsable de redirigir al usuario
     // según su rol al momento de iniciar sesión.
-    
-    private final CustomRole customRoleHandler; 
+    private final CustomRole customRoleHandler;
 
     // Constructor para la inyección de dependencias.
     // CustomRole es pasado automáticamente por Spring.
@@ -48,10 +47,19 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 
                 // Rutas públicas accesibles sin autenticación
-                .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/register", "/login").permitAll()
+                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/register", "/login").permitAll()
                 
                 // Rutas a las que solo puede acceder un usuario con rol ADMINISTRADOR
                 .requestMatchers("/admin/**").hasRole("ADMINISTRADOR")
+
+                // RUTAS ACTUALIZADAS PARA PROVEEDORES: Acceso para ADMINISTRADOR y VENDEDOR.
+                // Usamos "proveedores/**" para coincidir con la ruta base del controlador (en plural).
+                // Esto incluye: /proveedores, /proveedores/form, /proveedores/save, /proveedores/delete/{id}
+                .requestMatchers("/proveedores/**").hasAnyRole("ADMINISTRADOR", "VENDEDOR")
+
+                // RUTAS PARA ÓRDENES DE COMPRA: Acceso para ADMINISTRADOR y VENDEDOR.
+                // Esto incluye: /ordenescompra, /ordenescompra/form, /ordenescompra/save, /ordenescompra/reporte/**
+                .requestMatchers("/ordenescompra/**").hasAnyRole("ADMINISTRADOR", "VENDEDOR")
                 
                 // Cualquier otra solicitud requiere que el usuario esté autenticado
                 .anyRequest().authenticated()

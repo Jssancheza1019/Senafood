@@ -1,0 +1,294 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif; /* Fuente general de la página */
+    margin: 0; /* Sin márgenes */
+    padding: 0; /* Sin rellenos */
+    background-color: white; /* Color de fondo */
+    min-height: 100vh; /* Altura mínima de la ventana del navegador */
+}
+
+/* Barra de navegación */
+.navbar {
+    background-color: #4caf4f; /* Color de fondo de la barra */
+    color: white; /* Color del texto */
+    width: 100%; /* Ancho completo */
+    display: flex; /* Usar flexbox para alineación */
+    justify-content: space-between; /* Espaciado entre elementos */
+    align-items: center; /* Centrar verticalmente los elementos */
+    padding: 10px 20px; /* Espaciado vertical y horizontal */
+    z-index: 1000; /* Asegurar que esté encima de otros elementos */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar a {
+    color: white; /* Color del texto de los enlaces */
+    text-decoration: none; /* Sin subrayado */
+    padding: 14px 20px; /* Espaciado interno */
+    transition: background 0.3s; /* Transición suave para hover */
+}
+
+.navbar a:hover {
+    background-color: #FD7B03; /* Color de fondo al pasar el ratón */
+}
+
+/* Ajuste del logo en la barra de navegación */
+.navbar .logo img {
+    width: 1cm; /* Establecer el ancho del logo a cm */
+    height: auto; /* Mantener la proporción del logo */
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/* --- Menú de Perfil y Desplegable --- */
+.header-right {
+    position: relative; /* Contenedor para posicionar el menú desplegable */
+}
+
+/* Contenedor principal para contenido de vista */
+.main-content {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 95%; /* Ancho para adaptarse a contenido de tabla */
+}
+
+/* Títulos de las vistas */
+.main-content h1 {
+    color: #4caf4f;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+/* Contenedor para acciones (botones) */
+.actions-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Estilos para Tablas (Vistas CRUD) */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Para que los bordes redondeados funcionen */
+    margin-top: 20px;
+}
+
+.data-table th, .data-table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #4caf4f;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.data-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para Botones de CRUD */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn-create {
+    background-color: #4CA105;
+    color: white;
+}
+
+.btn-create:hover {
+    background-color: #3b8204;
+    transform: translateY(-1px);
+}
+
+.btn-edit {
+    background-color: #FD7B03;
+    color: white;
+    margin-right: 5px;
+    padding: 8px 12px;
+}
+
+.btn-edit:hover {
+    background-color: #e06c00;
+}
+
+.btn-delete {
+    background-color: #d9534f;
+    color: white;
+    padding: 8px 12px;
+}
+
+.btn-delete:hover {
+    background-color: #c9302c;
+}
+
+.btn-report {
+    background-color: #3f6ed9;
+    color: white;
+    margin-left: 10px;
+}
+
+.btn-report:hover {
+    background-color: #3258ac;
+}
+
+/* Contenedor central (usado para formularios y login) */
+.container {
+    display: flex; /* Usar flexbox para centrar contenido */
+    justify-content: center; /* Centrado horizontal */
+    align-items: flex-start; /* Alineación al inicio (para formularios largos) */
+    min-height: calc(100vh - 120px); /* Altura total menos la barra de navegación y descripción */
+    margin: 1cm auto; /* Margen superior e inferior de 1 cm */
+    padding-top: 20px;
+}
+
+/* Contenedor del formulario */
+.form-container {
+    background-color: white;
+    padding: 30px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+    width: 100%; /* Ancho relativo */
+    max-width: 800px; /* Ancho máximo aumentado para formularios */
+    margin: 0 20px;
+}
+
+.form-container h2 {
+    color: #4caf4f;
+    margin-bottom: 25px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Grupo de formulario */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Incluir padding y borde en el ancho */
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #4caf4f;
+    outline: none;
+}
+
+.form-actions {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.btn-submit {
+    background-color: #4CA105;
+    color: white;
+    padding: 10px 25px;
+    font-size: 1.1em;
+}
+
+.btn-submit:hover {
+    background-color: #3b8204;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: white;
+    margin-right: 10px;
+    padding: 10px 25px;
+    font-size: 1.1em;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+/* Descripción en la parte inferior */
+.description {
+    background-color: #4caf4f; /* Color de fondo de la barra */
+    text-align: center; /* Centrar el texto de la descripción */
+    padding: 10px; /* Espaciado interno de la descripción */
+    width: 100%; /* Ancho completo */
+    color: white;
+    margin-top: 20px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar .logo {
+        margin-bottom: 10px;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    .data-table th, .data-table td {
+        padding: 8px;
+        font-size: 0.8em;
+    }
+
+    .form-container {
+        padding: 20px;
+        max-width: 100%;
+        margin: 0 10px;
+    }
+
+    .btn {
+        font-size: 0.9em;
+    }
+
+    .actions-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actions-container a, .actions-container button {
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: center;
+    }
+}

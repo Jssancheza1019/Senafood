@@ -4,51 +4,55 @@ import com.senafood.model.Proveedor;
 import com.senafood.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Servicio para manejar operaciones de negocio relacionadas con Proveedores.
+ * Servicio que implementa la lógica de negocio para la entidad Proveedor.
  */
 @Service
 public class ProveedorService {
 
-    // Nota: El repositorio debe estar en com.senafood.repository y el modelo en com.senafood.model
     @Autowired
     private ProveedorRepository proveedorRepository;
 
     /**
-     * Obtiene la lista de todos los proveedores.
+     * Obtiene y retorna una lista de todos los proveedores.
      * @return Lista de objetos Proveedor.
      */
-    public List<Proveedor> findAll() {
+    public List<Proveedor> getAllProveedores() {
+        // CORRECCIÓN CLAVE: findAll() retorna todos los registros de la base de datos.
         return proveedorRepository.findAll();
     }
 
     /**
-     * Busca un proveedor por su ID.
-     * @param id ID del proveedor.
-     * @return Un Optional que contiene el Proveedor si existe.
+     * Guarda o actualiza un proveedor en la base de datos.
+     * @param proveedor El objeto Proveedor a guardar.
      */
-    public Optional<Proveedor> findById(Long id) {
-        return proveedorRepository.findById(id);
+    public void saveProveedor(Proveedor proveedor) {
+        this.proveedorRepository.save(proveedor);
     }
 
     /**
-     * Guarda o actualiza un proveedor.
-     * @param proveedor El objeto Proveedor a guardar.
-     * @return El Proveedor guardado.
+     * Obtiene un proveedor por su ID.
+     * @param id El ID del proveedor a buscar.
+     * @return El objeto Proveedor si existe.
      */
-    public Proveedor save(Proveedor proveedor) {
-        return proveedorRepository.save(proveedor);
+    public Proveedor getProveedorById(long id) {
+        Optional<Proveedor> optional = proveedorRepository.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
+        } else {
+            // Manejo de excepción o valor nulo si no se encuentra
+            throw new RuntimeException("Proveedor no encontrado para el id :: " + id);
+        }
     }
 
     /**
      * Elimina un proveedor por su ID.
-     * @param id ID del proveedor a eliminar.
+     * @param id El ID del proveedor a eliminar.
      */
-    public void deleteById(Long id) {
-        proveedorRepository.deleteById(id);
+    public void deleteProveedorById(long id) {
+        this.proveedorRepository.deleteById(id);
     }
 }

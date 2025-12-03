@@ -5,84 +5,70 @@ import com.senafood.service.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
- * Controlador para manejar las vistas y operaciones CRUD de Proveedores.
- * Mapea la ruta base /proveedores
+ * Controlador para la gestión de proveedores.
+ * Mapea las peticiones HTTP a la lógica de la aplicación.
  */
 @Controller
-@RequestMapping("/proveedor")
+@RequestMapping("/proveedores")
 public class ProveedorController {
 
     @Autowired
     private ProveedorService proveedorService;
 
-    /**
-     * Muestra la vista principal con la tabla de proveedores. (READ)
-     * Mapea a src/main/resources/templates/proveedor/view.html (basado en tu estructura de carpetas)
-     */
+    // Mapea a la ruta base /proveedores
     @GetMapping
-    public String listarProveedores(Model model) {
-        List<Proveedor> proveedores = proveedorService.findAll();
-        model.addAttribute("proveedor", proveedores);
-        // El nombre de la plantilla es "proveedor/view"
-        return "proveedor/view";
-    }
-
-    /**
-     * Muestra el formulario para crear un nuevo proveedor. (CREATE)
-     * Mapea a src/main/resources/templates/proveedor/form.html
-     */
-    @GetMapping("/form")
-    public String mostrarFormulario(Model model) {
-        model.addAttribute("proveedor", new Proveedor());
-        model.addAttribute("titulo", "Crear Nuevo Proveedor");
-        return "proveedor/form";
-    }
-
-    /**
-     * Muestra el formulario para editar un proveedor existente. (UPDATE - Parte 1)
-     */
-    @GetMapping("/form/{id}")
-    public String editarProveedor(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-        Optional<Proveedor> proveedor = proveedorService.findById(id);
-
-        if (proveedor.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "Proveedor no encontrado.");
-            return "redirect:/proveedor";
-        }
+    public String viewHomePage(Model model) {
+        // CORRECCIÓN CLAVE: Llama al servicio para obtener la lista completa
+        List<Proveedor> listaProveedores = proveedorService.getAllProveedores();
         
-        model.addAttribute("proveedor", proveedor.get());
-        model.addAttribute("titulo", "Editar Proveedor N° " + id);
+        // CORRECCIÓN CLAVE: Añade la lista al modelo con el nombre "listaProveedores"
+        model.addAttribute("listaProveedores", listaProveedores);
+        
+        // Retorna el nombre de la plantilla Thymeleaf (debería ser view.html o list.html)
+        // Usaremos 'proveedor/view' asumiendo que está en templates/proveedor/view.html
+        return "proveedor/view"; 
+    }
+
+    // Muestra el formulario para un nuevo proveedor
+    @GetMapping("/form")
+    public String showForm(@RequestParam(required = false) Long id, Model model) {
+        Proveedor proveedor;
+        if (id != null) {
+            // Caso de edición
+            proveedor = proveedorService.getProveedorById(id);
+        } else {
+            // Caso de nuevo proveedor
+            proveedor = new Proveedor();
+        }
+        model.addAttribute("proveedor", proveedor);
         return "proveedor/form";
     }
 
-    /**
-     * Guarda el proveedor enviado desde el formulario. (CREATE/UPDATE - Parte 2)
-     */
+    // Maneja la acción de guardar un proveedor (nuevo o editado)
     @PostMapping("/save")
-    public String guardarProveedor(Proveedor proveedor, RedirectAttributes redirectAttributes) {
-        proveedorService.save(proveedor);
-        redirectAttributes.addFlashAttribute("success", "Proveedor guardado exitosamente.");
-        return "redirect:/proveedor";
+    public String saveProveedor(@ModelAttribute("proveedor") Proveedor proveedor) {
+        // Guarda el proveedor a través del servicio
+        proveedorService.saveProveedor(proveedor);
+        // Redirige al listado principal después de guardar
+        return "redirect:/proveedores";
     }
 
-    /**
-     * Elimina un proveedor. (DELETE)
-     */
+    // Maneja la acción de eliminar un proveedor
     @GetMapping("/delete/{id}")
-    public String eliminarProveedor(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            proveedorService.deleteById(id);
-            redirectAttributes.addFlashAttribute("warning", "Proveedor eliminado exitosamente.");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error al eliminar el proveedor.");
-        }
-        return "redirect:/proveedor";
+    public String deleteProveedor(@PathVariable(value = "id") long id) {
+        // Llama al método de eliminación del servicio
+        this.proveedorService.deleteProveedorById(id);
+        // Redirige al listado principal después de eliminar
+        return "redirect:/proveedores";
     }
 }

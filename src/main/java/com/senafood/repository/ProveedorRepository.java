@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Repositorio para la entidad Proveedor.
- * Proporciona métodos CRUD y de consulta.
+ * Interfaz Repository para acceder a los datos de Proveedor.
+ * Extiende JpaRepository para obtener las operaciones CRUD estándar.
  */
 @Repository
 public interface ProveedorRepository extends JpaRepository<Proveedor, Long> {

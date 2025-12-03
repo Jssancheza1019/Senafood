@@ -1,101 +1,137 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SenaFood - Gestión de Proveedores</title>
-    <!-- Asumiendo que el CSS se carga desde un enlace dinámico o estático -->
-    <link rel="stylesheet" href="../../static/css/styles.css">
-    <link rel="icon" type="image/png" href="../../static/img/sena_food_logo.png">
+    <title>SenaFood | Gestión de Proveedores</title>
+    <link rel="stylesheet" href="/css/proveedor/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.min.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.0.7/js/dataTables.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.min.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.min.js"></script>
+    
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
 </head>
 <body>
-
-    <!-- Barra de Navegación -->
-    <header class="navbar">
-        <div class="logo-container">
-            <!-- Reemplaza con la ruta correcta de tu logo -->
-            <img src="../../static/img/sena_food_logo.png" alt="Logo SenaFood">
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/img/sena_food_logo.png" alt="Logo SenaFood">
             SenaFood
         </div>
-        <div class="nav-links">
-            <a href="/dashboard">Inicio</a>
-            <a href="/productos">Productos</a>
+        <div>
+            <a href="/">Inicio</a>
+            <a href="/admin_panel">Dashboard</a>
             <a href="/proveedores">Proveedores</a>
-            <a href="/ordenes_compra">Órdenes de Compra</a>
+            <a href="/ordenescompra">Órdenes de Compra</a>
+            <a href="/logout">Salir</a>
         </div>
-    </header>
+    </nav>
 
-    <!-- Contenedor Principal de Contenido -->
-    <div class="content-wrapper">
-        <div class="view-header">
-            <h1>Gestión de Proveedores</h1>
-            <div class="action-buttons">
-                <a href="/proveedores/form" class="btn-primary">Crear Nuevo Proveedor</a>
-                <button class="btn-secondary">Reporte PDF</button>
-                <button class="btn-secondary">Reporte Excel</button>
+    <div class="main-content">
+        <h1>Gestión de Proveedores</h1>
+
+        <div class="actions-container">
+            <a th:href="@{/proveedores/form}" class="btn btn-create">
+                <i class="fas fa-plus-circle"></i> Crear Nuevo Proveedor
+            </a>
             </div>
-        </div>
 
-        <!-- Tabla de Proveedores -->
-        <table class="data-table">
+        <table id="proveedoresTable" class="data-table display compact">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Contacto (Email)</th>
                     <th>Teléfono</th>
-                    <th>NIT</th>
                     <th>Dirección</th>
-                    <th style="width: 15%;">Modificar</th>
+                    <th>NIT</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Ejemplo de fila de datos (se llenará dinámicamente con Spring/Thymeleaf) -->
-                <tr>
-                    <td data-label="Nombre">Distribuidora La Casa</td>
-                    <td data-label="Contacto (Email)">contacto@lacasa.com</td>
-                    <td data-label="Teléfono">310 123 4567</td>
-                    <td data-label="NIT">900.123.456-1</td>
-                    <td data-label="Dirección">Calle 10 # 20 - 30, Bogotá</td>
-                    <td class="action-cell">
-                        <a href="/proveedores/form/1" class="btn-edit">Editar</a>
-                        <button class="btn-delete">Eliminar</button>
+                <tr th:each="proveedor : ${listaProveedores}">
+                    <td th:text="${proveedor.id}"></td>
+                    <td th:text="${proveedor.nombre}"></td>
+                    <td th:text="${proveedor.contacto}"></td>
+                    <td th:text="${proveedor.telefono}"></td>
+                    <td th:text="${proveedor.direccion}"></td>
+                    <td th:text="${proveedor.nit}"></td>
+                    
+                    
+                    <td>
+                        <a th:href="@{/proveedores/form(id=${proveedor.id})}" class="btn btn-warning btn-sm">Editar</a>
+                        
+                        <a th:href="@{/proveedores/delete/{id}(id=${proveedor.id})}" 
+                        class="btn btn-danger btn-sm"
+                        onclick="return confirm('¿Estás seguro de que quieres eliminar este proveedor?');">Eliminar</a>
                     </td>
                 </tr>
-                <tr>
-                    <td data-label="Nombre">Alimentos del Campo S.A.S.</td>
-                    <td data-label="Contacto (Email)">ventas@alimentosdelcampo.co</td>
-                    <td data-label="Teléfono">601 765 4321</td>
-                    <td data-label="NIT">890.987.654-2</td>
-                    <td data-label="Dirección">Carrera 5 # 100 - 15, Medellín</td>
-                    <td class="action-cell">
-                        <a href="/proveedores/form/2" class="btn-edit">Editar</a>
-                        <button class="btn-delete">Eliminar</button>
-                    </td>
-                </tr>
-                <!-- Fin del ejemplo -->
             </tbody>
         </table>
     </div>
 
-    <!-- Descripción/Footer -->
     <footer class="description">
-        SenaFood - Gestión Eficiente de Inventario y Compras.
+        SenaFood - Gestión Integral de Alimentos | Copyright &copy; 2025
     </footer>
 
-    <!-- Script para funcionalidad de botones de reportes y eliminación (ejemplo) -->
     <script>
-        document.querySelectorAll('.btn-delete').forEach(button => {
-            button.addEventListener('click', () => {
-                // Aquí iría el código para mostrar un modal de confirmación antes de eliminar
-                console.log('Intento de eliminar proveedor');
+        $(document).ready(function() {
+            // Inicializa DataTables en la tabla con ID 'proveedoresTable'
+            $('#proveedoresTable').DataTable({
+                // Configuración para mostrar los botones (B) y las funciones de DataTables
+                dom: 'Bfrtip', 
+                buttons: [
+                    'copy', 
+                    // Exporta a CSV, limitando las columnas a las solicitadas (0 a 5)
+                    {
+                        extend: 'csvHtml5',
+                        text: '<i class="fas fa-file-csv"></i> CSV',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5] 
+                        }
+                    },
+                    // Exporta a Excel, limitando las columnas a las solicitadas (0 a 5)
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i> Excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    // Exporta a PDF, limitando las columnas a las solicitadas (0 a 5)
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i> PDF',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    }
+                ],
+                // Configuración de idioma
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/2.0.7/i18n/es-ES.json'
+                }
             });
         });
-        document.querySelectorAll('.btn-secondary').forEach(button => {
-            button.addEventListener('click', () => {
-                console.log(`Generando ${button.textContent} para Proveedores`);
-                // Aquí iría la lógica de generación del reporte (llamada a controlador)
-            });
-        });
+        
+        // La función confirmDelete ya no es estrictamente necesaria si se usa la confirmación en el th:href
+        // pero la dejo por si tienes otro uso
+        function confirmDelete(id) {
+            // En una aplicación real, usarías un modal o un endpoint de backend
+            if (confirm('¿Está seguro de que desea eliminar al proveedor con ID: ' + id + '?')) {
+                // Aquí iría la lógica para enviar la solicitud de eliminación al servidor (ej. fetch('/proveedores/delete/' + id, { method: 'POST' }))
+                alert('Proveedor ' + id + ' eliminado (simulación).');
+            }
+        }
     </script>
 </body>
 </html>
