@@ -43,7 +43,7 @@ public class CustomRole implements AuthenticationSuccessHandler {
                 redirectUrl = "/vendedor/dashboard";
                 break;
             } else if (roleName.equals("ROLE_CLIENTE")) {
-                redirectUrl = "/catalogo"; // Redirigir al catálogo
+                redirectUrl = "/dashboard"; // Redirigir al catálogo
                 break;
             }
             // Si el rol es ROLE_CLIENTE u otro, se mantiene la URL por defecto
