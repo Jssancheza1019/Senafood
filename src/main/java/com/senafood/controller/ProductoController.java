@@ -4,16 +4,18 @@ import com.senafood.model.Producto;
 import com.senafood.service.ProductoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor; // NUEVA IMPORTACIÓN
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder; // NUEVA IMPORTACIÓN
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,10 +27,21 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
     
-    // Formato de fecha para el formulario (DD/MM/YYYY como el usuario ingresa)
-    private static final SimpleDateFormat DATE_FORMAT_INPUT = new SimpleDateFormat("dd/MM/yyyy");
-    // Formato para la base de datos (yy-MM-dd)
+    // Formato de fecha para el formulario (yyyy-MM-dd para HTML5 input type="date")
+    private static final SimpleDateFormat DATE_FORMAT_INPUT = new SimpleDateFormat("yyyy-MM-dd");
+    // Formato para la base de datos (yy-MM-dd) - Mantener si se usa internamente
     private static final SimpleDateFormat DATE_FORMAT_DB = new SimpleDateFormat("yy-MM-dd");
+    
+    /**
+     * Configura el DataBinder para que Spring pueda convertir automáticamente
+     * la cadena de fecha (yyyy-MM-dd) del formulario a java.util.Date.
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        // El tercer argumento (true) indica que los valores vacíos son permitidos.
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(DATE_FORMAT_INPUT, true));
+        System.out.println("✅ CustomDateEditor registrado para yyyy-MM-dd");
+    }
     
     /**
      * Página principal - Lista todos los productos
@@ -104,52 +117,24 @@ public class ProductoController {
      */
     @PostMapping("/store")
     public String store(@Valid @ModelAttribute Producto producto,
-                       BindingResult result,
-                       @RequestParam(value = "imagenFile", required = false) MultipartFile imagenFile,
-                       @RequestParam(value = "fechaVencimientoStr", required = false) String fechaVencimientoStr,
-                       RedirectAttributes redirectAttributes) {
+                        BindingResult result,
+                        @RequestParam(value = "imagenFile", required = false) MultipartFile imagenFile,
+                        RedirectAttributes redirectAttributes) { // ELIMINADO: fechaVencimientoStr
         
         System.out.println("💾 Intentando guardar producto: " + producto.getNombre());
         
-        // DEBUG: Ver qué está llegando
-        System.out.println("📅 fechaVencimientoStr recibida: " + fechaVencimientoStr);
-        
-        // Validar que la fecha no esté vacía
-        if (fechaVencimientoStr == null || fechaVencimientoStr.trim().isEmpty()) {
-            System.err.println("❌ Fecha de vencimiento vacía");
-            result.rejectValue("fechaVencimiento", "error.producto", 
-                "La fecha de vencimiento es obligatoria");
-            return "producto/form";
-        }
-        
-        // Convertir la fecha del formulario a Date
-        try {
-            // El usuario ingresa DD/MM/YYYY, lo convertimos a Date
-            Date fecha = DATE_FORMAT_INPUT.parse(fechaVencimientoStr);
-            producto.setFechaVencimiento(fecha);
-            System.out.println("📅 Fecha parseada (Date): " + fecha);
-            
-            // Convertir a formato de BD (yy-MM-dd) y mostrar para debug
-            String fechaBD = DATE_FORMAT_DB.format(fecha);
-            System.out.println("🗄️  Fecha para BD (yy-MM-dd): " + fechaBD);
-            
-        } catch (ParseException e) {
-            System.err.println("❌ Error al parsear fecha: " + fechaVencimientoStr);
-            result.rejectValue("fechaVencimiento", "error.producto", 
-                "Formato de fecha inválido. Use DD/MM/YYYY (ej: 28/01/2026)");
-            return "producto/form";
-        }
+        // La fechaVencimiento ahora se vincula automáticamente al objeto 'producto'
         
         if (result.hasErrors()) {
             System.out.println("❌ Errores de validación encontrados en store()");
             result.getFieldErrors().forEach(error -> 
-                System.out.println("   - " + error.getField() + ": " + error.getDefaultMessage())
+                System.out.println("   - " + error.getField() + ": " + error.getDefaultMessage())
             );
             return "producto/form";
         }
         
         try {
-            // Validar fecha de vencimiento
+            // Validar fecha de vencimiento (ya como objeto Date)
             if (producto.getFechaVencimiento() != null && 
                 producto.getFechaVencimiento().before(new Date())) {
                 result.rejectValue("fechaVencimiento", "error.producto", 
@@ -224,12 +209,9 @@ public class ProductoController {
         Producto producto = productoOpt.get();
         System.out.println("✅ Producto encontrado: " + producto.getNombre());
         
-        // Formatear la fecha para mostrar en el formulario (DD/MM/YYYY)
-        if (producto.getFechaVencimiento() != null) {
-            String fechaFormateada = DATE_FORMAT_INPUT.format(producto.getFechaVencimiento());
-            model.addAttribute("fechaFormateada", fechaFormateada);
-            System.out.println("📅 Fecha formateada para vista: " + fechaFormateada);
-        }
+        // No es necesario formatear la fecha aquí. El input type="date" de Thymeleaf
+        // se encarga de mostrar la fecha en el formato correcto (yyyy-MM-dd)
+        // cuando se usa th:field con un objeto Date.
         
         model.addAttribute("producto", producto);
         
@@ -241,54 +223,26 @@ public class ProductoController {
      */
     @PostMapping("/update/{id}")
     public String update(@PathVariable Long id,
-                        @Valid @ModelAttribute Producto producto,
-                        BindingResult result,
-                        @RequestParam(value = "imagenFile", required = false) MultipartFile imagenFile,
-                        @RequestParam(value = "eliminarImagen", required = false) Boolean eliminarImagen,
-                        @RequestParam(value = "fechaVencimientoStr", required = false) String fechaVencimientoStr,
-                        RedirectAttributes redirectAttributes) {
+                         @Valid @ModelAttribute Producto producto,
+                         BindingResult result,
+                         @RequestParam(value = "imagenFile", required = false) MultipartFile imagenFile,
+                         @RequestParam(value = "eliminarImagen", required = false) Boolean eliminarImagen,
+                         RedirectAttributes redirectAttributes) { // ELIMINADO: fechaVencimientoStr
         
         System.out.println("🔄 Intentando actualizar producto ID: " + id);
         
-        // DEBUG: Ver qué está llegando
-        System.out.println("📅 fechaVencimientoStr recibida: " + fechaVencimientoStr);
-        
-        // Validar que la fecha no esté vacía
-        if (fechaVencimientoStr == null || fechaVencimientoStr.trim().isEmpty()) {
-            System.err.println("❌ Fecha de vencimiento vacía en update");
-            result.rejectValue("fechaVencimiento", "error.producto", 
-                "La fecha de vencimiento es obligatoria");
-            return "producto/form";
-        }
-        
-        // Convertir la fecha del formulario a Date
-        try {
-            // El usuario ingresa DD/MM/YYYY, lo convertimos a Date
-            Date fecha = DATE_FORMAT_INPUT.parse(fechaVencimientoStr);
-            producto.setFechaVencimiento(fecha);
-            System.out.println("📅 Fecha parseada (Date): " + fecha);
-            
-            // Convertir a formato de BD (yy-MM-dd) y mostrar para debug
-            String fechaBD = DATE_FORMAT_DB.format(fecha);
-            System.out.println("🗄️  Fecha para BD (yy-MM-dd): " + fechaBD);
-            
-        } catch (ParseException e) {
-            System.err.println("❌ Error al parsear fecha: " + fechaVencimientoStr);
-            result.rejectValue("fechaVencimiento", "error.producto", 
-                "Formato de fecha inválido. Use DD/MM/YYYY (ej: 28/01/2026)");
-            return "producto/form";
-        }
+        // La fechaVencimiento ahora se vincula automáticamente al objeto 'producto'
         
         if (result.hasErrors()) {
             System.out.println("❌ Errores de validación encontrados en update()");
             result.getFieldErrors().forEach(error -> 
-                System.out.println("   - " + error.getField() + ": " + error.getDefaultMessage())
+                System.out.println("   - " + error.getField() + ": " + error.getDefaultMessage())
             );
             return "producto/form";
         }
         
         try {
-            // Validar fecha de vencimiento
+            // Validar fecha de vencimiento (ya como objeto Date)
             if (producto.getFechaVencimiento() != null && 
                 producto.getFechaVencimiento().before(new Date())) {
                 result.rejectValue("fechaVencimiento", "error.producto", 
@@ -417,7 +371,7 @@ public class ProductoController {
      */
     @GetMapping("/search")
     public String search(@RequestParam(value = "query", required = false) String query, 
-                        Model model) {
+                         Model model) {
         System.out.println("🔍 Buscando productos con query: " + query);
         
         List<Producto> productos;
@@ -483,5 +437,33 @@ public class ProductoController {
     @ResponseBody
     public String test() {
         return "✅ ProductoController funciona correctamente!";
+    }
+
+    // Archivo: ProductoController.java (Agregar este método)
+
+    @GetMapping("/catalogo")
+    public String catalogo(Model model) {
+        System.out.println("🖼️ Cargando vista de Catálogo...");
+        try {
+            // Obtener la lista completa de productos
+            List<Producto> productos = productoService.findAll();
+            
+            // Filtrar productos que estén activos y tengan stock disponible (> 0)
+            List<Producto> productosDisponibles = productos.stream()
+                    .filter(p -> "activo".equals(p.getEstado()) && p.getStock() > 0)
+                    .toList();
+
+            model.addAttribute("productos", productosDisponibles);
+            model.addAttribute("titulo", "Catálogo de Productos");
+            
+            // ¡IMPORTANTE! Retorna el nombre del archivo dentro de 'templates/'
+            return "producto/catalogo"; 
+            
+        } catch (Exception e) {
+            System.err.println("❌ ERROR al cargar catálogo: " + e.getMessage());
+            model.addAttribute("error", "Error al cargar el catálogo.");
+            model.addAttribute("productos", new ArrayList<Producto>()); // Asegurar que la lista no sea null
+            return "producto/catalogo";
+        }
     }
 }

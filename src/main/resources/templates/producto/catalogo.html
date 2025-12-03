@@ -3,39 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de Productos</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title th:text="${titulo}">Catálogo de Productos</title>
+    
+    <link rel="stylesheet" th:href="@{/css/producto/catalogo.css}"> 
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <div class="header">
-        <div class="container">
-            <h2>Catálogo de Productos</h2>
+        <div class="container flex justify-between items-center">
+            <h2 th:text="${titulo}">Catálogo de Productos</h2>
+            <a th:href="@{/producto}" class="btn btn-regresar">
+                <i class="fas fa-list"></i> Gestión
+            </a>
         </div>
     </div>
 
     <div class="container">
-        <!-- Botón para abrir carrito -->
+        <div class="search-container">
+            <input type="text" id="buscador" placeholder="Buscar productos..." 
+                    class="search-input" onkeyup="filtrarProductos()">
+            <span class="search-icon">🔍</span>
+        </div>
+
         <div class="flex justify-end mb-4">
             <button onclick="toggleCarrito()" class="floating-cart-btn">
                 🛒
             </button>
         </div>
 
-        <!-- Buscador -->
-        <div class="search-container">
-            <input type="text" id="buscador" placeholder="Buscar productos..." 
-                   class="search-input" onkeyup="filtrarProductos()">
-            <span class="search-icon">🔍</span>
+        <div th:if="${productos.isEmpty()}" class="no-results">
+            <p>Aún no hay productos disponibles en el catálogo.</p>
         </div>
-
-        <!-- Catálogo de productos -->
+        
         <div class="products-grid" id="catalogo">
             <div th:each="producto : ${productos}" class="product-card producto">
-                <img th:if="${producto.imagen != null}" 
-                     th:src="@{'/uploads/productos/' + ${producto.imagen}}"
+                
+                <img th:if="${producto.imagen != null and producto.imagen != ''}" 
+                     th:src="@{'/img/productos/' + ${producto.imagen}}"
                      alt="Producto" class="product-image">
-                <img th:unless="${producto.imagen != null}" 
+                <img th:unless="${producto.imagen != null and producto.imagen != ''}" 
                      th:src="@{/images/default-product.png}"
                      alt="Sin imagen" class="product-image">
                 
@@ -46,7 +53,6 @@
                 </p>
                 <p class="product-stock" th:text="'Stock: ' + ${producto.stock}"></p>
                 
-                <!-- Formulario para añadir al carrito -->
                 <form th:action="@{/carrito/add}" method="POST">
                     <input type="hidden" name="idProducto" th:value="${producto.idProducto}">
                     <button type="submit" class="btn btn-primary w-full mt-3">
@@ -57,19 +63,16 @@
         </div>
     </div>
 
-    <!-- Panel lateral del carrito -->
     <div id="sidebarCarrito" class="sidebar-cart">
         <div class="cart-header">
             <h2 class="text-xl font-bold text-green-600">Mi carrito</h2>
             <button onclick="toggleCarrito()" class="close-cart">✖</button>
         </div>
         <div class="cart-content">
-            <!-- Aquí iría el contenido del carrito -->
             <p>El carrito está vacío</p>
         </div>
     </div>
 
-    <!-- Scripts -->
     <script>
         function toggleCarrito() {
             const sidebar = document.getElementById('sidebarCarrito');

@@ -24,8 +24,8 @@ public class ProductoServiceImpl implements ProductoService {
     
     private final ProductoRepository productoRepository;
     
-    // Directorio donde se guardarán las imágenes
-    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/productos/";
+    // DIRECTORIO ACTUALIZADO: Cambiado a la ruta solicitada: static/img/productos/
+    private static final String UPLOAD_DIR = "src/main/resources/static/img/productos/";
     
     public ProductoServiceImpl(ProductoRepository productoRepository) {
         this.productoRepository = productoRepository;
@@ -41,7 +41,7 @@ public class ProductoServiceImpl implements ProductoService {
             Path uploadPath = Paths.get(UPLOAD_DIR);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
-                System.out.println("✅ Directorio creado: " + uploadPath.toAbsolutePath());
+                System.out.println("✅ Directorio de imágenes creado: " + uploadPath.toAbsolutePath());
             }
         } catch (IOException e) {
             System.err.println("❌ Error creando directorio: " + e.getMessage());
