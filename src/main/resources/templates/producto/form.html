@@ -5,75 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${producto.idProducto != null} ? 'Editar Producto' : 'Crear Producto'">Formulario Producto</title>
     
-    <!-- Bootstrap básico -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <style>
-        body {
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 800px;
-        }
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        .btn-primary {
-            background-color: #6f42c1;
-            border-color: #6f42c1;
-        }
-        .btn-primary:hover {
-            background-color: #5a32a3;
-            border-color: #5a32a3;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .text-danger {
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
-        .img-thumbnail {
-            max-width: 200px;
-            max-height: 200px;
-            margin-top: 10px;
-            border: 1px solid #ddd;
-            padding: 5px;
-            border-radius: 5px;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/producto/form.css}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <h2 th:text="${producto.idProducto != null} ? 'Editar Producto' : 'Crear Producto'"></h2>
         </div>
 
-        <!-- Formulario -->
+        <div class="mb-6">
+            <a th:href="@{/producto}" class="btn btn-regresar flex items-center space-x-2">
+                <i class="fas fa-arrow-left"></i>
+                <span>Regresar a Productos</span>
+            </a>
+        </div>
+        
         <div class="card">
             <div class="card-body">
-                <!-- IMPORTANTE: th:object debe apuntar al objeto producto -->
                 <form th:action="${producto.idProducto != null} ? 
-                              @{/producto/update/{id}(id=${producto.idProducto})} : 
-                              @{/producto/store}" 
+                                     @{/producto/update/{id}(id=${producto.idProducto})} : 
+                                     @{/producto/store}" 
                       method="post" 
                       enctype="multipart/form-data"
-                      th:object="${producto}">  <!-- AQUÍ está la corrección -->
+                      th:object="${producto}"> 
                     
-                    <!-- Campo oculto para el ID -->
                     <input type="hidden" name="idProducto" th:value="${producto.idProducto}" />
                     
-                    <!-- Alertas de error -->
                     <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
                         <h5>Errores de validación:</h5>
                         <ul>
@@ -81,37 +43,31 @@
                         </ul>
                     </div>
                     
-                    <!-- Nombre -->
                     <div class="form-group">
                         <label for="nombre">Nombre *</label>
-                        <input type="text" id="nombre" name="nombre" 
-                               th:value="${producto.nombre}" 
-                               class="form-control" required 
-                               placeholder="Ej: CocaCola 250ml">
+                        <input type="text" id="nombre" th:field="*{nombre}" 
+                            class="form-control" required 
+                            placeholder="Ej: CocaCola 250ml">
                         <div th:if="${#fields.hasErrors('nombre')}" class="text-danger">
                             <small th:errors="*{nombre}"></small>
                         </div>
                     </div>
                     
-                    <!-- Descripción -->
                     <div class="form-group">
                         <label for="descripcion">Descripción</label>
-                        <textarea id="descripcion" name="descripcion" 
-                                  class="form-control" rows="3"
-                                  th:text="${producto.descripcion}"
-                                  placeholder="Descripción breve del producto..."></textarea>
+                        <textarea id="descripcion" th:field="*{descripcion}" 
+                                     class="form-control" rows="3"
+                                     placeholder="Descripción breve del producto..."></textarea>
                     </div>
                     
-                    <!-- Fila de Precio y Stock -->
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="costoUnitario">Costo Unitario *</label>
-                                <input type="number" id="costoUnitario" name="costoUnitario" 
-                                       th:value="${producto.costoUnitario}" 
-                                       class="form-control" 
-                                       step="0.01" min="0.01" required 
-                                       placeholder="0.00">
+                                <input type="number" id="costoUnitario" th:field="*{costoUnitario}" 
+                                    class="form-control" 
+                                    step="0.01" min="0.01" required 
+                                    placeholder="0.00">
                                 <div th:if="${#fields.hasErrors('costoUnitario')}" class="text-danger">
                                     <small th:errors="*{costoUnitario}"></small>
                                 </div>
@@ -121,73 +77,67 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="stock">Stock *</label>
-                                <input type="number" id="stock" name="stock" 
-                                       th:value="${producto.stock}" 
-                                       class="form-control" 
-                                       min="0" required 
-                                       placeholder="0">
+                                <input type="number" id="stock" th:field="*{stock}" 
+                                    class="form-control" 
+                                    min="0" required 
+                                    placeholder="0">
+                                <div th:if="${#fields.hasErrors('stock')}" class="text-danger">
+                                    <small th:errors="*{stock}"></small>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Fecha de Vencimiento -->
                     <div class="form-group">
-                        <label for="fechaVencimientoStr">Fecha de Vencimiento *</label>
-                        <input type="date" id="fechaVencimientoStr" name="fechaVencimientoStr" 
-                            th:value="${#dates.format(producto.fechaVencimiento, 'yyyy-MM-dd')}" 
+                        <label for="fechaVencimiento">Fecha de Vencimiento *</label>
+                        <input type="date" id="fechaVencimiento" th:field="*{fechaVencimiento}" 
                             class="form-control" required>
                         <div th:if="${#fields.hasErrors('fechaVencimiento')}" class="text-danger">
                             <small th:errors="*{fechaVencimiento}"></small>
                         </div>
                     </div>
                     
-                    <!-- Fila de Categoría y Código de Barras -->
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="categoria">Categoría</label>
-                                <input type="text" id="categoria" name="categoria" 
-                                       th:value="${producto.categoria}" 
-                                       class="form-control" 
-                                       placeholder="Ej: Bebidas Gaseosas">
+                                <input type="text" id="categoria" th:field="*{categoria}" 
+                                    class="form-control" 
+                                    placeholder="Ej: Bebidas Gaseosas">
                             </div>
                         </div>
                         
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="codigoBarras">Código de Barras</label>
-                                <input type="text" id="codigoBarras" name="codigoBarras" 
-                                       th:value="${producto.codigoBarras}" 
-                                       class="form-control" 
-                                       placeholder="Opcional">
+                                <input type="text" id="codigoBarras" th:field="*{codigoBarras}" 
+                                    class="form-control" 
+                                    placeholder="Opcional">
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Estado -->
                     <div class="form-group">
                         <label for="estado">Estado</label>
-                        <select id="estado" name="estado" class="form-control">
-                            <option value="activo" th:selected="${producto.estado == 'activo'}">Activo</option>
-                            <option value="inactivo" th:selected="${producto.estado == 'inactivo'}">Inactivo</option>
+                        <select id="estado" th:field="*{estado}" class="form-control">
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
                         </select>
                     </div>
                     
-                    <!-- Imagen -->
                     <div class="form-group">
                         <label for="imagenFile">Imagen</label>
                         <input type="file" id="imagenFile" name="imagenFile" class="form-control" 
-                               accept="image/*">
+                            accept="image/*">
                         
-                        <!-- Mostrar imagen actual si existe -->
                         <div th:if="${producto.imagen != null and producto.imagen != ''}" class="mt-2">
                             <p><strong>Imagen actual:</strong> <span th:text="${producto.imagen}"></span></p>
-                            <img th:src="@{'/uploads/productos/' + ${producto.imagen}}" 
-                                 alt="Imagen del producto" 
-                                 class="img-thumbnail">
+                            <img th:src="@{'/img/productos/' + ${producto.imagen}}" 
+                                alt="Imagen del producto" 
+                                class="img-thumbnail">
                             <div class="form-check mt-2">
                                 <input type="checkbox" name="eliminarImagen" value="true" 
-                                       class="form-check-input" id="eliminarImagen">
+                                    class="form-check-input" id="eliminarImagen">
                                 <label class="form-check-label text-danger" for="eliminarImagen">
                                     Eliminar imagen actual
                                 </label>
@@ -195,10 +145,8 @@
                         </div>
                     </div>
                     
-                    <!-- ID de Inventario (oculto) -->
-                    <input type="hidden" name="idInventario" th:value="${producto.idInventario}" />
+                    <input type="hidden" th:field="*{idInventario}" />
                     
-                    <!-- Botones -->
                     <div class="form-group mt-4">
                         <button type="submit" class="btn btn-primary">
                             <span th:text="${producto.idProducto != null} ? 'Actualizar Producto' : 'Guardar Producto'"></span>
@@ -210,17 +158,18 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Establecer fecha mínima para hoy
+        // Lógica para establecer fecha mínima para hoy y valor por defecto (si es necesario)
         const fechaInput = document.getElementById('fechaVencimiento');
         if (fechaInput) {
             const hoy = new Date().toISOString().split('T')[0];
+            
+            // Establece la fecha mínima para evitar ingresar fechas pasadas
             fechaInput.min = hoy;
             
-            // Si no hay fecha, establecer fecha por defecto (30 días desde hoy)
+            // Si el campo está vacío, establece la fecha por defecto (ej: 30 días a partir de hoy)
             if (!fechaInput.value) {
                 const fechaDefault = new Date();
                 fechaDefault.setDate(fechaDefault.getDate() + 30);
@@ -228,7 +177,7 @@
             }
         }
         
-        // Validación básica
+        // Validación básica (mantenida de tu código)
         document.querySelector('form').addEventListener('submit', function(e) {
             const precio = document.getElementById('costoUnitario');
             const stock = document.getElementById('stock');

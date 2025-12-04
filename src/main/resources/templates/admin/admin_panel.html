@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SenaFOOD - Dashboard</title>
-    <link rel="stylesheet" href="/css/dashboard_styles.css"> 
+    <link rel="stylesheet" href="/css/dashboard_styles.css">
+    <!-- Asegúrate de tener Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
@@ -14,31 +16,34 @@
             <span class="app-title">Dashboard</span>
         </div>
 
-            <nav class="nav-menu">
-                <!-- Enlace a Productos -->
-                <a class="nav-link" th:href="@{/producto}">
-                    <i class="fas fa-box"></i>
-                    <span>Productos</span>
-                </a>
-                
-                <!-- Enlace a Catálogo -->
-                <a class="nav-link" th:href="@{/producto/catalogo}">
-                    <i class="fas fa-store"></i>
-                    <span>Catálogo</span>
-                </a>
-                
-                <!-- Enlace a PQRSF -->
-                <a class="nav-link" th:href="@{/pqrsf}">
-                    <i class="fas fa-comments"></i>
-                    <span>PQRSF</span>
-                </a>
-            </nav>
+        <!-- Enlace a Gestión PQRSF (Original) -->
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/pqrsf}">
+                <i class="fas fa-comments"></i>
+                <span>Gestión PQRSF</span>
+            </a>
+        </li>
+
+        <div class="nav-links-container">
+            <!-- Enlace a Gestión de Proveedores (CORREGIDO: apunta al controlador /proveedores) -->
+            <a class="nav-link" th:href="@{/proveedores}">
+                <i class="fas fa-truck-moving"></i>
+                <span>Proveedores</span>
+            </a>
+            
+            <!-- NUEVO Enlace a Órdenes de Compra (Añadido) -->
+            <a class="nav-link" th:href="@{/ordenescompra}">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>Órdenes de Compra</span>
+            </a>
+        </div>
+
         <div class="header-right">
             <div sec:authorize="isAuthenticated()" class="user-profile-menu">
                 
-                <span class="user-name" th:text="${#authentication.name}"></span> 
+                <span class="user-name" th:text="${#authentication.name}"></span>
                 
-                <div class="dropdown-icon">▼</div> 
+                <div class="dropdown-icon">▼</div>
 
                 <div class="dropdown-content">
                     <a href="/perfil/editar" class="dropdown-item">Modificar Datos</a>
@@ -82,6 +87,18 @@
                     <h3 class="box-title">Ayuda y Soporte</h3>
                     <p class="box-placeholder">Información sobre tu cuenta y soporte.</p>
                 </div>
+
+                <!-- Módulo: Gestión de Proveedores (CORREGIDO: apunta al controlador /proveedores) -->
+                <a th:href="@{/proveedores}" class="info-box module-link">
+                    <h3 class="box-title">Gestión de Proveedores</h3>
+                    <p class="box-placeholder">Creación, edición y listado de los proveedores de insumos.</p>
+                </a>
+                
+                <!-- NUEVO Módulo: Órdenes de Compra (Añadido) -->
+                <a th:href="@{/ordenescompra}" class="info-box module-link">
+                    <h3 class="box-title">Gestión de Órdenes de Compra</h3>
+                    <p class="box-placeholder">Creación y seguimiento de órdenes de compra a proveedores.</p>
+                </a>
             </div>
 
         </div>

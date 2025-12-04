@@ -1,0 +1,163 @@
+/*
+ * Archivo: static/css/producto/form.css
+ * Descripción: Estilos para la vista de Formulario de Productos (Crear/Editar), 
+ * usando la paleta verde y naranja del index.
+ */
+
+/* --- Colores de la paleta (VERDE y NARANJA) --- */
+:root {
+    --primary-color: #5cb85c;      /* Verde principal (Header, botón Regresar, focus de inputs) */
+    --secondary-color: #ff8c00;   /* Naranja secundario (Botón Guardar/Actualizar) */
+    --dark-green-hover: #49a549;  
+    --dark-orange-hover: #e68000; 
+    --bg-light: #f7f7f7;          
+    --border-color: #ddd;         
+    --text-color: #333;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Estilos Globales (Header, Container) --- */
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.header {
+    /* Fondo verde para el encabezado */
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header h2 {
+    margin: 0;
+    font-weight: 500;
+}
+
+/* --- Card del Formulario --- */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 20px;
+}
+
+/* --- Utilidades Flex (Para el botón Regresar) --- */
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.space-x-2 > * + * {
+    margin-left: 0.5rem;
+}
+
+/* --- Estilos de Botones --- */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Botón Regresar (Lo hacemos VERDE, como en tu index.producto) */
+.btn-regresar {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-regresar:hover {
+    background-color: var(--dark-green-hover);
+}
+
+/* Botón Guardar/Actualizar (Lo hacemos NARANJA, como tu secondary-color) */
+.btn-primary {
+    background-color: var(--secondary-color); 
+    border-color: var(--secondary-color);
+    color: white;
+    margin-right: 10px; /* Separación del botón Cancelar */
+}
+
+.btn-primary:hover {
+    background-color: var(--dark-orange-hover); 
+    border-color: var(--dark-orange-hover);
+}
+
+.btn-secondary {
+    background-color: #6c757d; 
+    border-color: #6c757d;
+    color: white;
+}
+
+/* --- Estilos de Formulario --- */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: var(--text-color);
+}
+
+.form-control:focus {
+    /* Resaltar el input con color verde al enfocar */
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(92, 184, 92, 0.25); /* Sombra verde sutil */
+}
+
+/* Errores */
+.text-danger {
+    font-size: 0.9em;
+    margin-top: 5px;
+    color: #dc3545 !important;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+/* Imagen y checkbox */
+.img-thumbnail {
+    max-width: 200px;
+    max-height: 200px;
+    margin-top: 10px;
+    border: 1px solid var(--border-color);
+    padding: 5px;
+    border-radius: 5px;
+    object-fit: cover;
+}

@@ -13,7 +13,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomRole customRoleHandler; 
+    // Inyección del Manejador de Redirección por Rol
+    // Spring inyectará automáticamente el bean de CustomRole.
+    // Este handler será responsable de redirigir al usuario
+    // según su rol al momento de iniciar sesión.
+    private final CustomRole customRoleHandler;
 
     public SecurityConfig(CustomRole customRoleHandler) {
         this.customRoleHandler = customRoleHandler;
@@ -35,10 +39,22 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authorize -> authorize
                 // Rutas públicas
-                .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/uploads/**", "/register", "/login").permitAll()
+                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/uploads/**", "/register", "/login").permitAll()
                 
-                // Rutas de administrador
+                // Rutas públicas accesibles sin autenticación
+                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/register", "/login").permitAll()
+                
+                // Rutas a las que solo puede acceder un usuario con rol ADMINISTRADOR
                 .requestMatchers("/admin/**").hasRole("ADMINISTRADOR")
+
+                // RUTAS ACTUALIZADAS PARA PROVEEDORES: Acceso para ADMINISTRADOR y VENDEDOR.
+                // Usamos "proveedores/**" para coincidir con la ruta base del controlador (en plural).
+                // Esto incluye: /proveedores, /proveedores/form, /proveedores/save, /proveedores/delete/{id}
+                .requestMatchers("/proveedores/**").hasAnyRole("ADMINISTRADOR", "VENDEDOR")
+
+                // RUTAS PARA ÓRDENES DE COMPRA: Acceso para ADMINISTRADOR y VENDEDOR.
+                // Esto incluye: /ordenescompra, /ordenescompra/form, /ordenescompra/save, /ordenescompra/reporte/**
+                .requestMatchers("/ordenescompra/**").hasAnyRole("ADMINISTRADOR", "VENDEDOR")
                 
                 // Rutas de producto accesibles para varios roles
                 .requestMatchers("/producto/**").hasAnyRole("ADMINISTRADOR", "VENDEDOR")
