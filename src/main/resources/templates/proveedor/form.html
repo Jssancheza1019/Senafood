@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SenaFood | Formulario de Proveedor</title>
+    <!-- Asumiendo que el CSS está en static/css/styles.css -->
+    <link rel="stylesheet" href="/css/proveedor/styles.css">
+</head>
+<body>
+    <!-- Barra de Navegación -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/img/sena_food_logo.png" alt="Logo SenaFood">
+            SenaFood
+        </div>
+        <div>
+            <a href="/">Inicio</a>
+            <a href="/src/main/resources/templates/admin/admin_panel.html">Dashboard</a>
+            <a href="/src/main/resources/templates/pqrsf/view.html">PQRSF</a>
+            <a href="/proveedores">Proveedores</a>
+            <a href="/ordenescompra">Órdenes de Compra</a>
+            <!--<a href="/logout">Salir</a>-->
+        </div>
+        <div class="header-right">
+            <div sec:authorize="isAuthenticated()" class="user-profile-menu">
+                
+                <span class="user-name" th:text="${#authentication.name}"></span>
+                
+                <div class="dropdown-icon">▼</div>
+
+                <div class="dropdown-content">
+                    <a href="/perfil/editar" class="dropdown-item">Modificar Datos</a>
+                    
+                    <form th:action="@{/logout}" method="post" class="logout-form">
+                        <button type="submit" class="dropdown-item logout-btn">Cerrar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal (Usamos el contenedor central para el formulario) -->
+    <div class="container">
+        <div class="form-container">
+            <!-- Lógica para mostrar título dinámico (Crear vs. Editar) -->
+            <!--<h2>Crear/Editar Proveedor</h2>-->
+
+            <h2 th:text="${proveedor.id == null ? 'Crear Nuevo Proveedor' : 'Editar Proveedor ID: ' + proveedor.id}">Crear/Editar Proveedor</h2>
+            
+            <form th:action="@{/proveedores/save}" th:object="${proveedor}" method="post">
+                
+            <input type="hidden" th:field="*{id}" />
+
+            <!-- Formulario de Proveedor -->
+            <!-- En Spring Boot con Thymeleaf, la acción sería th:action="@{/proveedores/save}" th:object="${proveedor}" -->
+            <!--<form action="/proveedores/save" method="post">-->
+                <!-- Campo oculto para el ID, necesario para edición -->
+                <!-- <input type="hidden" name="id_proveedor" th:value="${proveedor.id_proveedor}" /> -->
+            
+
+                <div class="form-group">
+                    <label for="nit">NIT (Número de Identificación Tributaria)</label>
+                    <input type="text" id="nit" name="nit" required 
+                        placeholder="Ej: 900123456-7" 
+                        pattern="[0-9]{9}-[0-9]" title="Formato: 9 dígitos y dígito de verificación"
+                        >
+                </div>
+
+                <div class="form-group">
+                    <label for="nombre">Nombre o Razón Social</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Ej: Distribuidora Alimenticia S.A.S.">
+                </div>
+
+                <div class="form-group">
+                    <label for="contacto">Contacto (Correo Electrónico)</label>
+                    <input type="email" id="contacto" name="contacto" required placeholder="Ej: contacto@empresa.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" required placeholder="Ej: +57 310 123 4567">
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <textarea id="direccion" name="direccion" rows="3" required placeholder="Ej: Calle 10 # 20-30, Ciudad"></textarea>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="form-actions">
+                    <a href="/proveedores" class="btn btn-cancel">Cancelar</a>
+                    <button type="submit" class="btn btn-submit">Guardar Proveedor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Descripción en la parte inferior -->
+    <footer class="description">
+        SenaFood - Gestión Integral de Alimentos | Copyright &copy; 2025
+    </footer>
+</body>
+</html>
