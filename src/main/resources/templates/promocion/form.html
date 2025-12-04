@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${promocion.idPromocion == null ? 'Crear Promoción' : 'Editar Promoción'}"></title>
+    <link rel="stylesheet" th:href="@{/css/promociones/custom.css}">
+    <link rel="stylesheet" th:href="@{/css/form_styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    
+    <style>
+        .error-message {
+            color: #dc3545; /* Rojo para mensaje de error */
+            font-size: 0.85em;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            
+            <h2 class="page-header">
+                <i class="fas fa-tags"></i> 
+                <span th:text="${promocion.idPromocion == null ? 'Crear Nueva Promoción' : 'Editar Promoción'}"></span>
+            </h2>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Detalles de la Promoción</h6>
+                </div>
+                <div class="card-body">
+                    
+                    <form th:action="@{/promociones/guardar}" th:object="${promocion}" method="post">
+                        
+                        <input type="hidden" th:field="*{idPromocion}">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                
+                                <div class="form-group">
+                                    <label for="descripcion">Descripción:</label>
+                                    <input type="text" id="descripcion" th:field="*{descripcion}" class="form-control" required>
+                                    <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}" class="text-danger small">Error</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="descuento">Descuento (Valor):</label>
+                                    <input type="number" id="descuento" th:field="*{descuento}" step="0.01" class="form-control" required>
+                                    <span th:if="${#fields.hasErrors('descuento')}" th:errors="*{descuento}" class="text-danger small">Error</span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="producto">Producto:</label>
+                                    <select id="producto" th:field="*{producto.idProducto}" class="form-control" required>
+                                        <option value="">Seleccione un producto</option>
+                                        <option th:each="prod : ${productos}" 
+                                                th:value="${prod.idProducto}" 
+                                                th:text="${prod.nombre}">
+                                            Nombre del Producto
+                                        </option>
+                                    </select>
+                                    <span th:if="${#fields.hasErrors('producto.idProducto')}" th:errors="*{producto.idProducto}" class="text-danger small">Error</span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <label for="fechaInicio">Fecha de Inicio:</label>
+                                    <input type="date" id="fechaInicio" 
+                                           th:field="*{fechaInicio}" 
+                                           class="form-control" required>
+                                    <span th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}" class="text-danger small">Error</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fechaFin">Fecha Fin:</label>
+                                    <input type="date" id="fechaFin" 
+                                        th:field="*{fechaFin}" 
+                                        class="form-control" required>
+                                    <span th:if="${#fields.hasErrors('fechaFin')}" th:errors="*{fechaFin}" class="text-danger small">Error</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <hr>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> 
+                            <span th:text="${promocion.idPromocion == null ? 'Guardar Promoción' : 'Actualizar Promoción'}"></span>
+                        </button>
+                        <a th:href="@{/promociones}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

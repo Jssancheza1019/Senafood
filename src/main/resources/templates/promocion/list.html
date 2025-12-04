@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestión de Promociones</title>
+    <link rel="stylesheet" th:href="@{/css/promociones/custom.css}">
+ <link rel="stylesheet" th:href="@{/css/promociones/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+</head>
+<body>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            
+            <h2 class="page-header">
+                <i class="fas fa-tags"></i> Gestión de Promociones
+            </h2>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Listado de Promociones Activas</h6>
+                    <a th:href="@{/promociones/form}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Crear Nueva Promoción
+                    </a>
+                </div>
+
+                <div class="card-body">
+                    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <div class="table-responsive">
+                        <table id="promocionesTable" class="table table-bordered display" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Descripción</th>
+                                    <th>**Descuento**</th>
+                                    <th>Producto</th>
+                                    <th>Inicio</th>
+                                    <th>Fin</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="promo : ${listaPromociones}">
+                                    <td th:text="${promo.idPromocion}">1</td>
+                                    <td th:text="${promo.descripcion}"></td>
+                                    <td th:text="${#numbers.formatCurrency(promo.descuento)}"></td>
+                                    <td th:text="${promo.producto.nombre}"></td> 
+                                    <td th:text="${#temporals.format(promo.fechaInicio, 'dd/MM/yyyy')}"></td>
+                                    <td th:text="${#temporals.format(promo.fechaFin, 'dd/MM/yyyy')}"></td>
+                                    <td>
+                                        <a th:href="@{/promociones/form(id=${promo.idPromocion})}" class="btn btn-warning btn-circle btn-sm" title="Modificar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a th:href="@{/promociones/eliminar/{id}(id=${promo.idPromocion})}" 
+                                           class="btn btn-danger btn-circle btn-sm" 
+                                           title="Eliminar"
+                                           onclick="return confirm('¿Estás seguro de que quieres eliminar esta promoción?');">
+                                           <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" 
+            src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#promocionesTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
+                }
+            });
+        });
+    </script>
+
+  <a th:href="@{/admin/panel}" class="btn-warning">Volver</a>
+</body>
+</html>
