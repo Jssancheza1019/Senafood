@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - Sistema</title>
+    
+    <link rel="stylesheet" th:href="@{/css/producto/producto.css}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h2>Gestión de Productos</h2> 
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="table-container">
+            
+            <div class="top-actions">
+                
+                <div class="actions-left">
+                    <div class="relative">
+                        <button id="informesBtn" class="btn">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Informes</span>
+                        </button>
+                        
+                        <div id="informesMenu" class="informes-menu hidden">
+                            <div class="flex space-x-6">
+                                <button class="export-btn" data-type="copy" title="Copiar"><i class="fas fa-copy"></i></button>
+                                <button class="export-btn" data-type="csv" title="CSV"><i class="fas fa-file-csv"></i></button>
+                                <button class="export-btn" data-type="excel" title="Excel"><i class="fas fa-file-excel"></i></button>
+                                <button class="export-btn" data-type="pdf" title="PDF"><i class="fas fa-file-pdf"></i></button>
+                                <button class="export-btn" data-type="print" title="Imprimir"><i class="fas fa-print"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions-group">
+                    
+                    <a th:href="@{/producto/create}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Crear producto
+                    </a>
+
+                    <a th:href="@{/catalogo}" class="btn btn-regresar">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </a>
+                </div>
+            </div>
+
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+            <div th:if="${ok}" class="alert alert-success" th:text="${ok}"></div>
+            <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+            <table id="producto" class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Costo Unitario</th>
+                        <th>Stock</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Categoría</th>
+                        <th>Código Barras</th>
+                        <th>Estado</th>
+                        <th>Modificar</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${productos}">
+                        <td th:text="${item.nombre}"></td>
+                        <td th:text="${item.descripcion}"></td>
+                        <td th:text="${#numbers.formatCurrency(item.costoUnitario)}"></td>
+                        <td th:text="${item.stock}"></td>
+                        <td th:text="${#dates.format(item.fechaVencimiento, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${item.categoria}"></td>
+                        <td th:text="${item.codigoBarras}"></td>
+                        <td th:text="${item.estado}"></td>
+                        <td class="text-center">
+                            <a th:href="@{/producto/edit/{id}(id=${item.idProducto})}" 
+                            class="btn btn-warning btn-sm">Modificar</a>
+                            
+                            <form th:action="@{/producto/delete/{id}(id=${item.idProducto})}" 
+                                method="POST" style="display:inline"
+                                onsubmit="return confirm('¿Eliminar este producto?')">
+                                <button type="submit" class="btn btn-danger btn-sm ml-2">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+    <script>
+        $(function() {
+            // Inicialización de DataTables
+            var table = $('#producto').DataTable({
+                pageLength: 20,
+                dom: 'Bfrtip',
+                // Los botones de exportación se configuran aquí para ignorar la última columna (Modificar)
+                buttons: [
+                    { extend: 'copy', exportOptions: { columns: ':not(:last-child)' } },
+                    { extend: 'csv', exportOptions: { columns: ':not(:last-child)' } },
+                    { extend: 'excel', exportOptions: { columns: ':not(:last-child)' } },
+                    { extend: 'pdf', exportOptions: { columns: ':not(:last-child)' } },
+                    { extend: 'print', exportOptions: { columns: ':not(:last-child)' } }
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/es-ES.json'
+                }
+            });
+
+            // Mostrar/ocultar menú de informes al hacer clic
+            $('#informesBtn').on('click', function(e) {
+                e.stopPropagation();
+                $('#informesMenu').toggleClass('hidden');
+            });
+
+            // Cerrar menú al hacer clic fuera
+            $(document).on('click', function() {
+                $('#informesMenu').addClass('hidden');
+            });
+
+            // Disparar la exportación según el ícono clickeado
+            $('.export-btn').on('click', function(e) {
+                e.stopPropagation();
+                var type = $(this).data('type');
+                // Simula el clic en el botón oculto de DataTables
+                table.button('.buttons-' + type).trigger();
+                $('#informesMenu').addClass('hidden'); // Ocultar después de seleccionar
+            });
+        });
+    </script>
+</body>
+</html>

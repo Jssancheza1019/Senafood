@@ -1,38 +1,64 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SenaFOOD - Bienvenido</title>
-    <link rel="stylesheet" href="/css/styles.css"> 
-</head>
-<body>
-
-    <div class="hero-slider-container">
-        
-        <header class="main-header-public">
-            <img src="/img/sena_food_logo.png" alt="SenaFOOD Logo" class="header-logo-public">
-        </header>
-        
-        <div class="slider-wrapper">
-            <img src="/img/slider/slide1.png" alt="Img 1" class="slider-image active">
-            <img src="/img/slider/slide2.png" alt="Img 2" class="slider-image">
-            <img src="/img/slider/slide3.png" alt="Img 3" class="slider-image">
-        </div>
-    </div>
+    <title>SenaFOOD</title>
     
-    <main class="welcome-section-content"> 
-        <h1 class="main-title">BIENVENIDO A SenaFOOD</h1>
-        <p class="tagline">
-            Explora la variedad y el sabor optimizando tu tiempo.
-        </p>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+</head>
+<body class="font-sans antialiased text-white flex flex-col min-h-screen">
 
-        <div class="button-group-public">
-            <a href="/login" class="btn-public btn-primary-public">Ingresar</a>
-            <a href="/register" class="btn-public btn-secondary-public">Registrar</a>
+    <header class="relative h-[60vh] w-full">
+
+        <img id="banner" th:src="@{/img/slider/banner1.png}" alt="Banner" class="banner-image fade">
+
+        <div class="absolute top-4 right-6 z-10">
+            <img th:src="@{/img/slider/senafood_logo.png}" alt="Logo SenaFOOD" class="w-32 drop-shadow-lg">
+        </div>
+    </header>
+
+    <main class="bg-gray-100 text-gray-900 py-16 px-4 text-center flex flex-col items-center justify-center flex-grow space-y-6">
+
+        <h1 class="text-4xl font-bold text-green-700 drop-shadow-md">Bienvenido a SenaFOOD</h1>
+
+        <p class="text-lg text-gray-700 max-w-xl">Explora la variedad y el sabor optimizando tu tiempo.</p>
+
+        <div class="space-x-4 mt-4">
+            <a href="/login"
+            class="bg-green-600 hover:bg-orange-500 text-white font-semibold py-2 px-6 rounded shadow transition">
+                Ingresar
+            </a>
+            <a href="/register"
+            class="bg-green-600 hover:bg-orange-500 text-white font-semibold py-2 px-6 rounded shadow transition">
+                Registrar
+            </a>
         </div>
     </main>
 
-<script src="/js/slider.js"></script>    
+    <footer class="bg-orange-500 text-white py-4 text-center text-lg">
+        <p>&copy; <span th:text="${#dates.year(#dates.createNow())}">2025</span> SenaFOOD - Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        const banner = document.getElementById('banner');
+        let current = 1;
+        const totalImages = 9;
+
+        setInterval(() => {
+            current = (current % totalImages) + 1;
+            banner.classList.add('opacity-0');
+            setTimeout(() => {
+                // 🛑 CORRECCIÓN CLAVE: 
+                // La ruta DEBE coincidir con la estructura de tu carpeta 'static'.
+                // Se cambió de '/images/' (incorrecto) a '/img/slider/' (correcto).
+                banner.src = '/img/slider/banner' + current + '.png'; 
+                banner.classList.remove('opacity-0');
+            }, 300);
+        }, 3000);
+    </script>
+
 </body>
 </html>
