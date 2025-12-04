@@ -170,3 +170,47 @@ body {
     font-style: italic;
     font-size: 0.9em;
 }
+
+/* Nuevo CSS para el menú de navegación */
+.nav-menu {
+    display: flex; /* Asegura que los enlaces estén en línea */
+    gap: 20px; /* Espacio entre los enlaces */
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    
+    /* 1. NO TACHADO (Asegúrate de que no haya otra regla que lo ponga) */
+    text-decoration: none; 
+    
+    /* 2. COLOR VERDE */
+    color: #38761d; /* Usando el verde de la marca */
+    
+    /* 3. NEGRITA */
+    font-weight: bold; 
+    
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: #4CAF50; /* Un verde más brillante al pasar el ratón */
+}
+
+.nav-link i {
+    margin-right: 5px; /* Espacio entre el icono y el texto */
+}
+
+/* El resto de tu CSS (body, .main-header, etc.) queda igual */
+
+/* Nuevo CSS para que el enlace del info-box no afecte el estilo interno */
+.info-box-link {
+    text-decoration: none; /* Quita el subrayado del enlace */
+    color: inherit; /* Hereda el color del texto */
+}
+
+/* Asegura que el info-box sea el que tenga los estilos visuales */
+.info-box {
+    /* ... (Estilos existentes) ... */
+    height: 100%; /* Asegura que el enlace cubra toda la celda del grid */
+}

@@ -48,7 +48,7 @@
                         <i class="fas fa-plus"></i> Crear producto
                     </a>
 
-                    <a th:href="@{/catalogo}" class="btn btn-regresar">
+                    <a th:href="@{/admin_panel}" class="btn btn-regresar">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
                 </div>
@@ -76,7 +76,7 @@
                     <tr th:each="item : ${productos}">
                         <td th:text="${item.nombre}"></td>
                         <td th:text="${item.descripcion}"></td>
-                        <td th:text="${#numbers.formatCurrency(item.costoUnitario)}"></td>
+                        <td th:text="${#numbers.formatDecimal(item.costoUnitario, 1, 'POINT', 2, 'COMMA')}"></td>
                         <td th:text="${item.stock}"></td>
                         <td th:text="${#dates.format(item.fechaVencimiento, 'dd/MM/yyyy')}"></td>
                         <td th:text="${item.categoria}"></td>

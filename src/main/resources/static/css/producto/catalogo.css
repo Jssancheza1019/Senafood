@@ -247,3 +247,68 @@ body {
     color: #aaa;
     transition: color 0.3s;
 }
+
+/* Asegura que el contenedor de la cabecera use flexbox y esté bien espaciado */
+.header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    margin-bottom: 20px;
+}
+
+/* El contenedor principal debe centrar el título y los botones */
+.container.flex.justify-between.items-center {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Distribuye espacio entre elementos */
+    max-width: 1200px; /* Ajusta a tu diseño */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* El título del catálogo */
+.container h2 {
+    flex-grow: 1; /* Permite que el título ocupe el espacio central */
+    text-align: center;
+    font-size: 1.8em;
+    color: #38761d;
+}
+
+/* Contenedor para el botón de Gestión (izquierda) */
+.header-left-buttons {
+    min-width: 150px; /* Reserva espacio para el botón de Gestión */
+    text-align: left;
+}
+
+/* Estilos de los botones (Regresar y Gestión) */
+.btn {
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-regresar {
+    background-color: #f1f1f1;
+    color: #555;
+    border: 1px solid #ddd;
+}
+
+.btn-regresar:hover {
+    background-color: #e0e0e0;
+}
+
+.btn-gestion {
+    background-color: #38761d; /* Verde SenaFOOD */
+    color: white;
+}
+
+.btn-gestion:hover {
+    background-color: #4CAF50;
+}
+
+/* El resto de tu CSS para el grid de productos y la barra lateral sigue igual */

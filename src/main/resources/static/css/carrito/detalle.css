@@ -1,0 +1,103 @@
+/*
+ * Archivo: detalle.css
+ * Ubicación: static/css/carrito/detalle.css
+ * Contiene los estilos específicos para la vista de detalle del carrito (detalle.html).
+ */
+
+/* Estructura principal del contenedor del carrito */
+.cart-detail-container {
+    display: flex;
+    gap: 30px;
+}
+
+/* Sección de la lista de ítems del carrito (ocupa el espacio restante) */
+.cart-items {
+    flex-grow: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Sección de resumen del carrito (ancho fijo y sticky para seguir el scroll) */
+.cart-summary {
+    flex-shrink: 0;
+    width: 350px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    height: fit-content; /* Ajustar altura al contenido */
+    position: sticky; /* Se mantiene al hacer scroll */
+    top: 20px; /* Distancia desde la parte superior */
+}
+
+/* Estilos de tabla */
+.cart-item-table th, .cart-item-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-table th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Imagen en miniatura del producto */
+.product-miniature {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Fila de total a pagar en el resumen */
+.total-row {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--secondary-color); /* Naranja oscuro */
+    border-top: 3px solid #eee;
+    padding-top: 15px;
+    margin-top: 10px;
+}
+
+/* Botones de opciones de pago */
+.payment-options button {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* Color para el botón de transferencia no disponible (gris) */
+.btn-transferencia {
+    background-color: #aaa;
+    color: white;
+    cursor: not-allowed;
+}
+.btn-transferencia:hover {
+    background-color: #999;
+}
+
+/* Grupo para la cantidad de productos (botones +/- y número) */
+.input-group-quantity {
+    display: flex;
+    align-items: center;
+}
+.input-group-quantity .form-control-sm {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+/* Estilo para el mensaje de carrito vacío */
+.no-results {
+    text-align: center;
+    padding: 50px;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    margin-top: 20px;
+}

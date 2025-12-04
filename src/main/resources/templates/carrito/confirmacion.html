@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Confirmación de Pedido</title>
+    
+    <link rel="stylesheet" th:href="@{/css/producto/catalogo.css}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        .confirm-box {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            max-width: 600px;
+            margin: 50px auto;
+        }
+        .confirm-box i {
+            color: var(--primary-color); /* Verde */
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        .confirm-box h1 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        .confirm-box p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 25px;
+        }
+        .confirm-box .total {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--secondary-color); /* Naranja oscuro */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h2 th:text="${titulo}">Confirmación de Pedido</h2>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="confirm-box">
+            <i class="fas fa-check-circle"></i>
+            <h1>¡Pedido Guardado con Éxito!</h1>
+            <p>Hemos recibido tu orden. El pago con **Efectivo** se realizará al momento de la entrega o recolección.</p>
+            
+            <p>Total de la Orden:</p>
+            <p class="total" th:text="${#numbers.formatCurrency(totalPagado)}"></p> 
+            
+            <a th:href="@{/producto/catalogo}" class="btn btn-primary mt-4">
+                <i class="fas fa-store"></i> Volver al Catálogo
+            </a>
+        </div>
+    </div>
+
+    <div class="alert alert-success" role="alert">
+        ¡Tu pedido ha sido procesado con éxito!
+    </div>
+
+    <h3>Detalles de la Transacción</h3>
+    <p>
+        <strong>Número de Pedido:</strong> 
+        <span th:text="${idPedido}">[ID_PEDIDO]</span> 
+    </p>
+    <p>
+        <strong>Total Pagado:</strong> 
+        <span th:text="${totalPagado}">[TOTAL]</span> 
+    </p>
+</body>
+</html>

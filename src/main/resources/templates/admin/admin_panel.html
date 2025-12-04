@@ -9,53 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-
-    <header class="main-header">
-        <div class="header-left">
-            <img src="/img/sena_food_logo.png" alt="SenaFOOD Logo" class="header-logo">
-            <span class="app-title">Dashboard</span>
-        </div>
-
-        <!-- Enlace a Gestión PQRSF (Original) -->
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/pqrsf}">
-                <i class="fas fa-comments"></i>
-                <span>Gestión PQRSF</span>
-            </a>
-        </li>
-
-        <div class="nav-links-container">
-            <!-- Enlace a Gestión de Proveedores (CORREGIDO: apunta al controlador /proveedores) -->
-            <a class="nav-link" th:href="@{/proveedores}">
-                <i class="fas fa-truck-moving"></i>
-                <span>Proveedores</span>
-            </a>
-            
-            <!-- NUEVO Enlace a Órdenes de Compra (Añadido) -->
-            <a class="nav-link" th:href="@{/ordenescompra}">
-                <i class="fas fa-file-invoice-dollar"></i>
-                <span>Órdenes de Compra</span>
-            </a>
-        </div>
-
-        <div class="header-right">
-            <div sec:authorize="isAuthenticated()" class="user-profile-menu">
-                
-                <span class="user-name" th:text="${#authentication.name}"></span>
-                
-                <div class="dropdown-icon">▼</div>
-
-                <div class="dropdown-content">
-                    <a href="/perfil/editar" class="dropdown-item">Modificar Datos</a>
-                    
-                    <form th:action="@{/logout}" method="post" class="logout-form">
-                        <button type="submit" class="dropdown-item logout-btn">Cerrar Sesión</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </header>
-
+    <div th:replace="fragments/header :: main-header"></div> 
+    
     <div class="dashboard-content">
         <div class="welcome-card">
             
@@ -67,21 +22,25 @@
             </p>
 
             <div class="info-grid">
-                
-                <div class="info-box">
-                    <h3 class="box-title">Catálogo</h3>
-                    <p class="box-placeholder">Aquí va la información del catálogo de productos.</p>
-                </div>
+                        
+                <a class="info-box-link" th:href="@{/producto/catalogo}">
+                    <div class="info-box">
+                        <h3 class="box-title">Catálogo</h3>
+                        <p class="box-placeholder">Ver y administrar el catálogo de productos.</p>
+                    </div>
+                </a>
                 
                 <div class="info-box">
                     <h3 class="box-title">Gestión de usuario</h3>
                     <p class="box-placeholder">Aquí va el href de gestión de usuarios.</p>
                 </div>
 
-                <div class="info-box">
-                    <h3 class="box-title">Gestión de pedidos y novedades</h3>
-                    <p class="box-placeholder">Aquí va la información sobre pedidos y notificaciones.</p>
-                </div>
+                <a class="info-box-link" th:href="@{/pqrsf}">
+                    <div class="info-box">
+                        <h3 class="box-title">Gestión PQRSF</h3>
+                        <p class="box-placeholder">Gestionar peticiones, quejas, reclamos, sugerencias y felicitaciones.</p>
+                    </div>
+                </a>
                 
                 <div class="info-box">
                     <h3 class="box-title">Ayuda y Soporte</h3>

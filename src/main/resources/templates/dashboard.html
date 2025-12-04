@@ -7,37 +7,7 @@
     <link rel="stylesheet" href="/css/dashboard_styles.css"> 
 </head>
 <body>
-
-    <header class="main-header">
-        <div class="header-left">
-            <img src="/img/sena_food_logo.png" alt="SenaFOOD Logo" class="header-logo">
-            <span class="app-title">Dashboard</span>
-        </div>
-
-        <li class="nav-item">
-    <a class="nav-link" th:href="@{/pqrsf/mis-solicitudes}">
-        <i class="fas fa-comments"></i> 
-        <span>Mis Solicitudes PQRSF</span>
-    </a>
-</li>
-
-        <div class="header-right">
-            <div sec:authorize="isAuthenticated()" class="user-profile-menu">
-                
-                <span class="user-name" th:text="${#authentication.name}"></span> 
-                
-                <div class="dropdown-icon">▼</div> 
-
-                <div class="dropdown-content">
-                    <a href="/perfil/editar" class="dropdown-item">Modificar Datos</a>
-                    
-                    <form th:action="@{/logout}" method="post" class="logout-form">
-                        <button type="submit" class="dropdown-item logout-btn">Cerrar Sesión</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </header>
+    <div th:replace="fragments/header :: main-header"></div> 
 
     <div class="dashboard-content">
         <div class="welcome-card">
@@ -51,15 +21,18 @@
 
             <div class="info-grid">
                 
-                <div class="info-box">
-                    <h3 class="box-title">Catálogo</h3>
-                    <p class="box-placeholder">Aquí va la información del catálogo de productos.</p>
-                </div>
+                <a class="info-box-link" th:href="@{/producto/catalogo}">
+                    <div class="info-box">
+                        <h3 class="box-title">Catálogo</h3>
+                        <p class="box-placeholder">Aquí va la información del catálogo de productos.</p>
+                    </div>
+                </a>
                 
-                <div class="info-box">
-                    <h3 class="box-title">PQRSF>
-                    <p class="box-placeholder">Aquí va el href de form de pqrsf</p>
-                </div>
+                <a class="info-box-link" th:href="@{/pqrsf}">
+                    <div class="info-box">
+                        <h3 class="box-title">PQRSF</h3> <p class="box-placeholder">Aquí va el href de form de pqrsf</p>
+                    </div>
+                </a>
 
                 <div class="info-box">
                     <h3 class="box-title">Gestión de pedidos y novedades</h3>

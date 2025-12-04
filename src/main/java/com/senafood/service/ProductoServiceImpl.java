@@ -74,7 +74,7 @@ public class ProductoServiceImpl implements ProductoService {
         // Validar que el código de barras no exista (si se proporciona)
         if (producto.getCodigoBarras() != null && !producto.getCodigoBarras().isEmpty()) {
             Optional<Producto> existente = productoRepository.findByCodigoBarras(producto.getCodigoBarras());
-            if (existente.isPresent()) {
+            if (existente.isPresent() && !existente.get().getIdProducto().equals(producto.getIdProducto())) {
                 throw new RuntimeException("Ya existe un producto con el código de barras: " + producto.getCodigoBarras());
             }
         }
@@ -117,6 +117,11 @@ public class ProductoServiceImpl implements ProductoService {
                 // Actualizar código de barras solo si es diferente y no existe otro producto con él
                 if (productoData.getCodigoBarras() != null && 
                     !productoData.getCodigoBarras().equals(productoExistente.getCodigoBarras())) {
+                    
+                    Optional<Producto> existente = productoRepository.findByCodigoBarras(productoData.getCodigoBarras());
+                    if (existente.isPresent() && !existente.get().getIdProducto().equals(id)) {
+                        throw new RuntimeException("Ya existe un producto con el código de barras: " + productoData.getCodigoBarras());
+                    }
                     productoExistente.setCodigoBarras(productoData.getCodigoBarras());
                 }
                 
@@ -268,5 +273,35 @@ public class ProductoServiceImpl implements ProductoService {
         long count = productoRepository.count();
         System.out.println("📊 Verificando datos - Total registros: " + count);
         return count > 0;
+    }
+
+    // IMPLEMENTACIÓN CRÍTICA CORREGIDA para asegurar la atomicidad de la transacción.
+    @Override
+    @Transactional
+    public void descontarStock(Long idProducto, Integer cantidad) {
+        System.out.println("🔄 Descontando stock: Producto ID " + idProducto + ", Cantidad: " + cantidad);
+        
+        // 1. Busca el producto directamente con el repositorio.
+        // Esto asegura que la entidad esté gestionada correctamente en la transacción.
+        Producto producto = productoRepository.findById(idProducto)
+            .orElseThrow(() -> {
+                System.err.println("❌ ERROR: Producto no encontrado con ID: " + idProducto);
+                return new RuntimeException("Producto no encontrado con ID: " + idProducto);
+            });
+        
+        // 2. Verifica stock (Lógica CRÍTICA para el Rollback)
+        if (producto.getStock() < cantidad) {
+            System.err.println("❌ ERROR: Stock insuficiente para " + producto.getNombre() + ". Solicitado: " + cantidad + ", Actual: " + producto.getStock());
+            // Lanza una excepción NO CHEQUEADA (RuntimeException) para que PedidoServiceImpl 
+            // fuerce el ROLLBACK de toda la transacción.
+            throw new RuntimeException("Stock insuficiente para el producto: " + producto.getNombre() + ". Stock actual: " + producto.getStock());
+        }
+        
+        // 3. Descuenta y guarda
+        producto.setStock(producto.getStock() - cantidad);
+        producto.setUpdateAt(new Date()); 
+        productoRepository.save(producto);
+        
+        System.out.println("✅ Stock actualizado para " + producto.getNombre() + ". Nuevo stock: " + producto.getStock());
     }
 }

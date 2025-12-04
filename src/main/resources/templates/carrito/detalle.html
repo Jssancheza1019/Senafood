@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo}">Detalle de tu Carrito</title>
+    
+    <link rel="stylesheet" th:href="@{/css/producto/catalogo.css}"> 
+    <link rel="stylesheet" th:href="@{/css/carrito/detalle.css}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container flex justify-between items-center">
+            <h2 th:text="${titulo}">Detalle de tu Carrito</h2>
+            <a th:href="@{/producto/catalogo}" class="btn btn-regresar">
+                <i class="fas fa-store"></i> Volver al Catálogo
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+        
+        <div class="cart-detail-container">
+            
+            <div class="cart-items">
+                
+                <div th:if="${detalles.isEmpty()}" class="no-results">
+                    <p>Tu carrito está vacío. ¡Añade productos del <a th:href="@{/producto/catalogo}">catálogo</a>!</p>
+                </div>
+
+                <table th:unless="${detalles.isEmpty()}" class="cart-item-table w-full">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Nombre</th>
+                            <th>Precio Unitario</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="detalle : ${detalles}">
+                            <td>
+                                <img th:if="${detalle.imagen != null and detalle.imagen != ''}"
+                                    th:src="@{'/img/productos/' + ${detalle.imagen}}" 
+                                    alt="Miniatura" class="product-miniature">
+                                <img th:unless="${detalle.imagen != null and detalle.imagen != ''}" 
+                                    th:src="@{/images/default-product.png}"
+                                    alt="Sin imagen" class="product-miniature">
+                            </td>
+                            
+                            <td th:text="${detalle.nombreProducto}"></td>
+                            <td th:text="${#numbers.formatCurrency(detalle.precioUnitario)}"></td>
+                            
+                            <td>
+                                <div class="input-group-quantity">
+                                    <form th:action="@{/carrito/update}" method="post" style="display:inline;">
+                                        <input type="hidden" name="idProducto" th:value="${detalle.idProducto}" />
+                                        <input type="hidden" name="action" value="restar" />
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Quitar 1">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input th:if="${_csrf}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                    </form>
+
+                                    <span class="form-control-sm" th:text="${detalle.cantidad}">1</span>
+
+                                    <form th:action="@{/carrito/update}" method="post" style="display:inline;">
+                                        <input type="hidden" name="idProducto" th:value="${detalle.idProducto}" />
+                                        <input type="hidden" name="action" value="sumar" />
+                                        <button type="submit" class="btn btn-primary btn-sm" title="Añadir 1">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <input th:if="${_csrf}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                    </form>
+                                </div>
+                            </td>
+                            
+                            <td th:text="${#numbers.formatCurrency(detalle.subTotal)}" class="font-bold"></td>
+                            
+                            <td>
+                                <span class="text-xs text-gray-500">Usar (-)</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                </table>
+            </div>
+
+            <div th:unless="${detalles.isEmpty()}" class="cart-summary">
+                <h3 class="text-xl font-bold mb-4">Resumen de tu Orden</h3>
+                
+                <div class="total-row flex justify-between">
+                    <span>Total a Pagar:</span>
+                    <span th:text="${#numbers.formatCurrency(totalPagar)}"></span>
+                </div>
+                
+                <h4 class="font-bold mt-6 mb-3">Métodos de Pago:</h4>
+                <div class="payment-options">
+                    
+                    <form th:action="@{/carrito/pago/efectivo}" method="post">
+                        <input th:if="${_csrf}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-money-bill-wave"></i> Pagar con Efectivo
+                        </button>
+                    </form>
+                    
+                    <button type="button" class="btn btn-transferencia" onclick="mostrarAlertaTransferencia()">
+                        <i class="fas fa-exchange-alt"></i> Pagar con Transferencia
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script>
+        /**
+         * Muestra un mensaje de que la opción de transferencia no está disponible.
+         */
+        function mostrarAlertaTransferencia() {
+            alert('¡Atención! La opción de transferencia no está disponible por el momento. Por favor, seleccione Pagar con Efectivo para finalizar su pedido.');
+        }
+    </script>
+</body>
+</html>

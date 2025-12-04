@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,24 +12,34 @@
 <body>
     <div class="header">
         <div class="container flex justify-between items-center">
+            
+            <div class="header-left-buttons">
+                <a th:href="@{/producto}" class="btn btn-gestion" 
+                   sec:authorize="hasRole('ROLE_ADMINISTRADOR')">
+                    <i class="fas fa-box"></i> Gestión de Productos
+                </a>
+                </div>
+
             <h2 th:text="${titulo}">Catálogo de Productos</h2>
-            <a th:href="@{/producto}" class="btn btn-regresar">
-                <i class="fas fa-list"></i> Gestión
+            
+            <a th:href="@{/admin_panel}" class="btn btn-regresar">
+                <i class="fas fa-arrow-left"></i> Regresar
             </a>
+            
         </div>
     </div>
 
     <div class="container">
         <div class="search-container">
             <input type="text" id="buscador" placeholder="Buscar productos..." 
-                    class="search-input" onkeyup="filtrarProductos()">
+                         class="search-input" onkeyup="filtrarProductos()">
             <span class="search-icon">🔍</span>
         </div>
 
         <div class="flex justify-end mb-4">
-            <button onclick="toggleCarrito()" class="floating-cart-btn">
-                🛒
-            </button>
+            <a th:href="@{/carrito/detalle}" class="floating-cart-btn">
+                🛒 
+            </a>
         </div>
 
         <div th:if="${productos.isEmpty()}" class="no-results">
@@ -40,23 +50,24 @@
             <div th:each="producto : ${productos}" class="product-card producto">
                 
                 <img th:if="${producto.imagen != null and producto.imagen != ''}" 
-                     th:src="@{'/img/productos/' + ${producto.imagen}}"
-                     alt="Producto" class="product-image">
+                        th:src="@{'/img/productos/' + ${producto.imagen}}"
+                        alt="Producto" class="product-image">
                 <img th:unless="${producto.imagen != null and producto.imagen != ''}" 
-                     th:src="@{/images/default-product.png}"
-                     alt="Sin imagen" class="product-image">
+                        th:src="@{/images/default-product.png}"
+                        alt="Sin imagen" class="product-image">
                 
                 <h3 class="product-name" th:text="${producto.nombre}"></h3>
                 <p class="descripcion" th:text="${producto.descripcion}"></p>
                 <p class="product-price" 
-                   th:text="'$' + ${#numbers.formatDecimal(producto.costoUnitario, 0, 'COMMA', 2, 'POINT')}">
+                    th:text="'$' + ${#numbers.formatDecimal(producto.costoUnitario, 0, 'POINT', 2, 'COMMA')}">
                 </p>
                 <p class="product-stock" th:text="'Stock: ' + ${producto.stock}"></p>
                 
-                <form th:action="@{/carrito/add}" method="POST">
+                <form th:action="@{/carrito/agregar}" method="POST">
                     <input type="hidden" name="idProducto" th:value="${producto.idProducto}">
+                    
                     <button type="submit" class="btn btn-primary w-full mt-3">
-                        Añadir al carrito
+                        <i class="fas fa-cart-plus"></i> Añadir al Carrito
                     </button>
                 </form>
             </div>
@@ -66,14 +77,17 @@
     <div id="sidebarCarrito" class="sidebar-cart">
         <div class="cart-header">
             <h2 class="text-xl font-bold text-green-600">Mi carrito</h2>
-            <button onclick="toggleCarrito()" class="close-cart">✖</button>
+            <a th:href="@{/carrito/detalle}" class="close-cart">
+                <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
         <div class="cart-content">
-            <p>El carrito está vacío</p>
+            <p>El carrito está vacío. <a th:href="@{/carrito/detalle}">Ver Carrito Completo</a></p>
         </div>
     </div>
 
     <script>
+        // COMENTARIO: Funciones JavaScript (se mantienen)
         function toggleCarrito() {
             const sidebar = document.getElementById('sidebarCarrito');
             sidebar.classList.toggle('open');
@@ -95,13 +109,14 @@
             });
         }
         
-        // Cerrar carrito al hacer clic fuera
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById('sidebarCarrito');
             const cartBtn = document.querySelector('.floating-cart-btn');
             
-            if (!sidebar.contains(event.target) && !cartBtn.contains(event.target) && sidebar.classList.contains('open')) {
-                toggleCarrito();
+            if (sidebar && cartBtn) {
+                if (!sidebar.contains(event.target) && !cartBtn.contains(event.target) && sidebar.classList.contains('open')) {
+                    toggleCarrito();
+                }
             }
         });
     </script>

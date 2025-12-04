@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" href="/css/dashboard_styles.css"> 
+</head>
+<body>
+
+    <header class="main-header" th:fragment="main-header">
+        <div class="header-left">
+            <img src="/img/sena_food_logo.png" alt="SenaFOOD Logo" class="header-logo">
+            <span class="app-title">Dashboard</span>
+        </div>
+
+        <nav class="nav-menu">
+            <a class="nav-link" th:href="@{/producto/catalogo}">
+                <i class="fas fa-store"></i>
+                <span>Catálogo</span>
+            </a>
+            
+            <a class="nav-link" th:href="@{/producto}">
+                <i class="fas fa-box"></i>
+                <span>Productos</span>
+            </a>
+            
+            <a class="nav-link" th:href="@{/pqrsf}">
+                <i class="fas fa-comments"></i>
+                <span>PQRSF</span>
+            </a>
+            
+            </nav>
+
+        <div class="header-right">
+            <div sec:authorize="isAuthenticated()" class="user-profile-menu">
+                <span class="user-name" th:text="${#authentication.name}"></span> 
+                <div class="dropdown-icon">▼</div> 
+                <div class="dropdown-content">
+                    <a href="/perfil/editar" class="dropdown-item">Modificar Datos</a>
+                    <form th:action="@{/logout}" method="post" class="logout-form">
+                        <button type="submit" class="dropdown-item logout-btn">Cerrar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+</body>
+</html>

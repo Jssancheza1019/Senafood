@@ -31,4 +31,9 @@ public interface ProductoService {
     // Métodos utilitarios
     boolean existsByCodigoBarras(String codigoBarras);
     List<String> findAllCategorias();
+
+    // NUEVO MÉTODO PARA EL CARRITO/PEDIDO
+    void descontarStock(Long idProducto, Integer cantidad);
+
+ 
 }
