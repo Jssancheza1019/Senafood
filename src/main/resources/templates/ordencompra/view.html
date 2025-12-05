@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SenaFood | Gestión de Proveedores</title>
-    <!-- Asumiendo que el CSS está en static/css/styles.css -->
+    <title>SenaFood | Gestión de Órdenes de Compra</title>
+        <!-- Asumiendo que el CSS está en static/css/styles.css -->
     <link rel="stylesheet" href="/css/proveedor/styles.css">
-    <!-- Iconos de Font Awesome para los botones -->
+        <!-- Iconos de Font Awesome para los botones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -51,52 +51,39 @@
             </div>
         </div>
     </nav>
-    
+
     <!-- Contenido Principal -->
     <div class="main-content">
-        <h1>Gestión de Proveedores</h1>
+        <h1>Gestión de Órdenes de Compra</h1>
 
         <!-- Contenedor de Acciones (Crear y Reportes) -->
         <div class="actions-container">
-            <!-- Botón para ir al formulario de creación (Ruta: /proveedore/form) -->
-            <a th:href="@{/proveedores/form}" class="btn btn-create">
-                <i class="fas fa-plus-circle"></i> Crear Nuevo Proveedor
+            <a th:href="@{/ordenescompra/form}" class="btn btn-create">
+                <i class="fas fa-file-invoice"></i> Crear Nueva Orden de Compra
             </a>
         </div>
 
-        <!-- Tabla de Datos de Proveedores -->
-        <table id="proveedoresTable" class="data-table">
+        <table id="ordencompraTable" class="data-table"> 
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Contacto (Email)</th>
-                    <th>Teléfono</th>
-                    <th>Dirección</th>
-                    <th>NIT</th>
-                    <th>Acciones</th>
-                </tr>
+                    <th>ID</th> <th>Fecha</th> <th>Producto</th> <th>Cantidad</th> <th>Precio Unitario</th> <th>Total</th> <th>Estado</th> <th>Proveedor</th> <th>Acciones</th> </tr>
             </thead>
             <tbody>
-                <tr th:each="proveedor : ${listaProveedores}">
-                    <td th:text="${proveedor.id}"></td>
-                    <td th:text="${proveedor.nombre}"></td>
-                    <td th:text="${proveedor.contacto}"></td>
-                    <td th:text="${proveedor.telefono}"></td>
-                    <td th:text="${proveedor.direccion}"></td>
-                    <td th:text="${proveedor.nit}"></td>
-                    
-                    
-                    <td>
-                        <!-- Botón para ir al formulario de edición (Ruta: /proveedores/form/{id}) -->
-                        <a th:href="@{/proveedores/form(id=${proveedor.id})}" class="btn btn-edit">
+                <tr th:each="ordencompra : ${listaOrdenesCompra}">
+                    <td th:text="${ordencompra.id}"></td>
+                    <td th:text="${#temporals.format(ordencompra.fecha, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${ordencompra.producto}"></td>
+                    <td th:text="${ordencompra.cantidad}"></td>
+                    <td th:text="${#numbers.formatCurrency(ordencompra.precioUnitario)}"></td>
+                    <td th:text="${#numbers.formatCurrency(ordencompra.total)}"></td>
+                    <td th:text="${ordencompra.estado}"></td>
+                    <td th:text="${ordencompra.proveedor.nombre}"></td> <td>
+                        <a th:href="@{/ordenescompra/form(id=${ordencompra.id})}" class="btn btn-edit">
                             <i class="fas fa-edit"></i> Editar 
                         </a>
-                        
-                        <!-- Botón para la acción de eliminar (Ruta: /proveedores/delete/{id}) -->
-                        <a th:href="@{/proveedores/delete/{id}(id=${proveedor.id})}" 
+                        <a th:href="@{/ordenescompra/delete/{id}(id=${ordencompra.id})}" 
                         class="btn btn-delete"
-                        onclick="return confirm('¿Estás seguro de que quieres eliminar este Proveedir ID: ' + [[$proveedor.id]] + '?');">
+                        onclick="return confirm('¿Estás seguro de que quieres eliminar la Orden de Compra ID: ' + [[$ordencompra.id]] + '?');">
                             <i class="fas fa-trash-alt"></i> Eliminar
                         </a>
                     </td>
@@ -111,53 +98,49 @@
 
     <script>
         $(document).ready(function() {
-            // Inicializa DataTables en la tabla con ID 'proveedoresTable'
-            $('#proveedoresTable').DataTable({
-                // Configuración para mostrar los botones (B) y las funciones de DataTables
+            $('#ordencompraTable').DataTable({
+                // B: Buttons, f: Filtering/Search, r: Processing, t: Table, i: Info, p: Pagination
                 dom: 'Bfrtip', 
                 buttons: [
+                    // Botón para copiar
                     'copy', 
-                    // Exporta a CSV, limitando las columnas a las solicitadas (0 a 5)
+                    // Exporta a CSV, limitando las columnas a las solicitadas 
                     {
                         extend: 'csvHtml5',
                         text: '<i class="fas fa-file-csv"></i> CSV',
+                        // Columnas a exportar (0:ID, 1:Fecha, 2:Producto, 3:Cantidad, 4:Precio Unitario, 5:Total, 6:Estado, 7:Proveedor)
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5] 
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7] 
                         }
                     },
-                    // Exporta a Excel, limitando las columnas a las solicitadas (0 a 5)
+                    // Exporta a Excel
                     {
                         extend: 'excelHtml5',
                         text: '<i class="fas fa-file-excel"></i> Excel',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
                         }
                     },
-                    // Exporta a PDF, limitando las columnas a las solicitadas (0 a 5)
+                    // Exporta a PDF
                     {
                         extend: 'pdfHtml5',
                         text: '<i class="fas fa-file-pdf"></i> PDF',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        },
+                        // Personalización de PDF (opcional)
+                        customize: function(doc) {
+                            doc.content[1].table.widths = ['10%', '10%', '25%', '10%', '15%', '15%', '10%', '10%'];
+                            doc.styles.tableHeader.fillColor = '#4caf4f';
                         }
                     }
                 ],
-                // Configuración de idioma
+                // Configuración de idioma (Descomentar si tienes el archivo de idioma)
                 /*language: {
                     url: '//cdn.datatables.net/plug-ins/2.0.7/i18n/es-ES.json'
                 }*/
             });
         });
-        
-        // La función confirmDelete ya no es estrictamente necesaria si se usa la confirmación en el th:href
-        // pero la dejo por si tienes otro uso
-        function confirmDelete(id) {
-            // En una aplicación real, usarías un modal o un endpoint de backend
-            if (confirm('¿Está seguro de que desea eliminar al proveedor con ID: ' + id + '?')) {
-                // Aquí iría la lógica para enviar la solicitud de eliminación al servidor (ej. fetch('/proveedores/delete/' + id, { method: 'POST' }))
-                alert('Proveedor ' + id + ' eliminado (simulación).');
-            }
-        }
     </script>
 </body>
 </html>

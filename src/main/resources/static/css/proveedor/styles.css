@@ -41,7 +41,71 @@ body {
 
 /* --- Menú de Perfil y Desplegable --- */
 .header-right {
-    position: relative; /* Contenedor para posicionar el menú desplegable */
+    position: relative; 
+    /* Asegúrate de que este contenedor sea relativo */
+    /* para posicionar el dropdown-content */
+}
+
+/* Estilos del contenedor del menú de perfil */
+.user-profile-menu {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px 15px; /* Ajuste del padding para el área de clic/hover */
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.user-profile-menu:hover {
+    background-color: #FD7B03; /* Color de fondo al pasar el ratón */
+}
+
+/* El contenido que se desplegará (oculto por defecto) */
+.dropdown-content {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    background-color: #f9f9f9; /* Fondo del menú desplegable */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1001; /* Alto z-index para que esté sobre todo */
+    right: 0; /* Alineado a la derecha del user-profile-menu */
+    border-radius: 5px;
+    overflow: hidden; /* Para que los bordes redondeados se apliquen a los items */
+}
+
+/* Mostrar el contenido del dropdown al pasar el ratón */
+.user-profile-menu:hover .dropdown-content {
+    display: block;
+}
+
+/* Estilo para los ítems dentro del desplegable */
+.dropdown-content a,
+.dropdown-content .logout-form button {
+    color: #333; /* Color del texto para los ítems */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    background: none; /* Eliminar el fondo del botón */
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.dropdown-content a:hover,
+.dropdown-content .logout-form button:hover {
+    background-color: #ddd; /* Color de fondo al pasar el ratón por el ítem */
+}
+
+/* Estilo del icono de flecha */
+.dropdown-icon {
+    margin-left: 5px;
+    display: inline-block;
+}
+
+/* Estilo para el nombre de usuario */
+.user-name {
+    margin-right: 5px;
 }
 
 /* Contenedor principal para contenido de vista */
