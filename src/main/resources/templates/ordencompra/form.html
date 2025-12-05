@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SenaFood | Formulario de Orden de Compra</title>
+    <link rel="stylesheet" href="/css/proveedor/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/img/sena_food_logo.png" alt="Logo SenaFood">
+            SenaFood
+        </div>
+        <div>
+            <a href="/">Inicio</a>
+            <a href="/admin_panel">Dashboard</a>
+            <a href="/pqrsf">PQRSF</a>
+            <a href="/producto">Producto</a>
+            <a href="/proveedores">Proveedores</a>
+            <a href="/ordenescompra">Órdenes de Compra</a>
+        </div>
+        <div class="header-right">
+            <div sec:authorize="isAuthenticated()" class="user-profile-menu">
+                <span class="user-name" th:text="${#authentication.name}"></span>
+                <div class="dropdown-icon">▼</div>
+                <div class="dropdown-content">
+                    <a href="/perfil/editar" class="dropdown-item">Modificar Datos</a>
+                    <form th:action="@{/logout}" method="post" class="logout-form">
+                        <button type="submit" class="dropdown-item logout-btn">Cerrar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-container">
+            
+            <h2 th:text="${ordencompra.id == null ? 'Crear Nueva Orden de Compra' : 'Editar Orden de Compra ID: ' + ordencompra.id}">Crear/Editar OC</h2>
+            
+            <form th:action="@{/ordenescompra/save}" th:object="${ordencompra}" method="post">
+                
+                <input type="hidden" th:field="*{id}" />
+                
+                <div class="form-group" th:if="${ordencompra.id != null}">
+                    <label for="id_orden">Número de Orden de Compra</label>
+                    <input type="text" id="id_orden" th:value="'OC-' + *{id}" readonly disabled title="El número de orden se asigna automáticamente al guardar.">
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha">Fecha de la Orden</label>
+                    <input type="date" id="fecha" th:field="*{fecha}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="proveedor">Proveedor</label>
+                    <select id="proveedor" th:field="*{proveedor}" required>
+                        <option value="">-- Seleccione un Proveedor --</option>
+                        <option th:each="prov : ${listaProveedores}" 
+                                th:value="${prov.id}" 
+                                th:text="${prov.nombre}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="producto">Producto</label>
+                    <input type="text" th:field="*{producto}" required placeholder="Ej: Harina de Trigo Tipo A">
+                </div>
+
+                <div class="form-group">
+                    <label for="cantidad">Cantidad</label>
+                    <input type="number" th:field="*{cantidad}" required min="1" placeholder="Ej: 150">
+                </div>
+
+                <div class="form-group">
+                    <label for="precioUnitario">Precio Unitario</label>
+                    <input type="number" th:field="*{precioUnitario}" required min="0.01" step="0.01" placeholder="Ej: 8500.00">
+                </div>
+                
+                <div class="form-group">
+                    <label for="estado">Estado</label>
+                    <select id="estado" th:field="*{estado}" required>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Aprobada">Aprobada</option>
+                        <option value="Enviada">Enviada</option>
+                        <option value="Entregada">Entregada</option>
+                        <option value="Cancelada">Cancelada</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <a th:href="@{/ordenescompra}" class="btn btn-cancel">Cancelar</a>
+                    <button type="submit" class="btn btn-submit">Guardar Orden de Compra</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cantidad = document.getElementById('cantidad');
+            const precioUnitario = document.getElementById('precioUnitario');
+
+            // Simple example to calculate total on change
+            function calculateTotal() {
+                const qty = parseFloat(cantidad.value) || 0;
+                const price = parseFloat(precioUnitario.value) || 0;
+                const total = qty * price;
+                console.log('Total calculado (sólo frontend):', total.toFixed(2)); 
+                // NOTA: El total final se calcula y guarda en el servidor.
+            }
+
+            cantidad.addEventListener('input', calculateTotal);
+            precioUnitario.addEventListener('input', calculateTotal);
+            
+            // Llama una vez si es edición para ver el total
+            calculateTotal(); 
+        });
+    </script>
+
+    <footer class="description">
+        SenaFood - Gestión Integral de Alimentos | Copyright &copy; 2025
+    </footer>
+</body>
+</html>
