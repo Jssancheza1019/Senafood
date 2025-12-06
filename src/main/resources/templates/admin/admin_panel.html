@@ -16,6 +16,31 @@
             <span class="app-title">Dashboard</span>
         </div>
 
+            <nav class="nav-menu">
+                <!-- Enlace a Productos -->
+                <a class="nav-link" th:href="@{/producto}">
+                    <i class="fas fa-box"></i>
+                    <span>Productos</span>
+                </a>
+                
+                <!-- Enlace a Promociones -->
+                <a class="nav-link" th:href="@{/promociones}">
+                    <i class="fas fa-box"></i>
+                    <span>Promociones</span>
+                </a>
+
+                <!-- Enlace a Catálogo -->
+                <a class="nav-link" th:href="@{/producto/catalogo}">
+                    <i class="fas fa-store"></i>
+                    <span>Catálogo</span>
+                </a>
+                
+                <!-- Enlace a PQRSF -->
+                <a class="nav-link" th:href="@{/pqrsf}">
+                    <i class="fas fa-comments"></i>
+                    <span>PQRSF</span>
+                </a>
+            </nav>
         <!-- Enlace a Gestión PQRSF (Original) -->
         <li class="nav-item">
             <a class="nav-link" th:href="@{/pqrsf}">

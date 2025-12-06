@@ -1,0 +1,118 @@
+
+/*  CUERPO Y FONDO (GRADIENTE) */
+.login-body {
+    /* Gradiente de fondo suave, similar al ejemplo */
+    background: linear-gradient(135deg, #f0fff0, #e0f8e0); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    /* Permite el scroll si el formulario es muy largo (como el de registro) */
+    overflow-y: auto; 
+}
+
+/* 2. LOGO */
+.logo-wrapper {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-logo {
+    width: 120px; /* Ajusta el tamaño de tu logo */
+    height: auto;
+}
+
+
+/*CONTENEDOR PRINCIPAL DEL FORMULARIO */
+.login-container {
+    max-width: 400px;
+    width: 100%;
+    /* Centra el contenedor verticalmente, si no estás usando login-body flex */
+}
+
+/* 🚨 Esta clase ahora se usa para el contenedor del REGISTRO y LOGIN  */
+.form-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px; /* Bordes redondeados de la tarjeta */
+    /* Ajustamos la sombra para que se vea mejor */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+    margin: 20px 0; /* Espacio para el scroll en pantallas pequeñas */
+}
+
+.form-title {
+    text-align: center;
+    color: #4CAF50; /* Un verde vibrante */
+    margin-bottom: 30px;
+    font-size: 1.8em; /* Un poco más grande para el título */
+    font-weight: bold;
+}
+
+
+/* CAMPOS Y GRUPOS DE FORMULARIO */
+.form-group {
+    margin-bottom: 15px; /* Ligeramente más pequeño para el formulario largo */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #333; /* Color más oscuro para mejor legibilidad */
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd; /* Borde más suave */
+    border-radius: 8px; /* Bordes redondeados del input */
+    box-sizing: border-box; 
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus {
+    border-color: #4CAF50; /* Borde verde al enfocar */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.4); /* Sombra verde más sutil */
+    outline: none;
+}
+
+/*BOTÓN DE REGISTRO/LOGIN */
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50; /* Fondo verde */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-register:hover {
+    background-color: #388E3C; /* Verde más oscuro al pasar el ratón */
+    transform: translateY(-2px);
+}
+
+/* 6. ENLACES SECUNDARIOS */
+.register-link-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.register-link-text a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.register-link-text a:hover {
+    color: #388E3C;
+    text-decoration: underline;
+}
